@@ -97,8 +97,9 @@
 
     <div id="new-task"
         class="fixed bottom-0 max-w-screen-xl mx-auto pb-4 inset-x-0 w-full border-t border-gray-200 bg-white border-x border-x-gray-900/5">
-        <div x-data="{ newTask: '' }" class="relative h-14">
-            <input type="text" placeholder="Add new task to the category" x-model="newTask"
+        <div x-data="{ newTask: '' }" class="relative h-14" x-on:keydown.ctrl.space.window="$refs.newTask.focus()"
+            x-on:keydown.escape="newTask = ''; $refs.newTask.blur()">
+            <input type="text" placeholder="Add new task to the category" x-model="newTask" x-ref="newTask"
                 class="block w-full h-full px-8 pl-[62px] text-sm/6 placeholder:text-gray-500 placeholder:font-normal text-gray-900 font-medium focus:outline-none focus:ring-1 focus:ring-gray-300 rounded-lg">
             <div class="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 -mb-px">
@@ -107,7 +108,7 @@
                 </svg>
             </div>
 
-            <div x-show="newTask.length == 0" class="absolute top-1/2 -translate-y-1/2 left-[276px]">
+            <div x-show="newTask.length == 0" class="absolute top-1/2 -translate-y-1/2 left-[17.25rem]">
                 <div class="-mb-1 py-1 px-3 border border-gray-200 text-xs font-semibold rounded-md">
                     Control + Space
                 </div>
