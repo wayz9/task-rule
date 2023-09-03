@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function() {
-    return 'Only authenticated users can see this.';
-})
-    ->middleware('auth')
+Route::get('/', Dashboard::class)
+    ->middleware('auth', 'verified')
     ->name('home');

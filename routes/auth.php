@@ -48,7 +48,6 @@ Route::get('/auth/github/redirect', fn() => Socialite::driver('github')->redirec
 Route::get('/auth/github/callback', function() {
     $githubUser = Socialite::driver('github')->user();
     
-
     $user = User::updateOrCreate([
         'github_id' => $githubUser->id,
     ], [
@@ -56,6 +55,7 @@ Route::get('/auth/github/callback', function() {
         'email' => $githubUser->email,
         'github_token' => $githubUser->token,
         'github_refresh_token' => $githubUser->refreshToken,
+        'email_verified_at' => now(),
     ]);
 
     auth()->login($user, true);

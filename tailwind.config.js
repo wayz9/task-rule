@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require("tailwindcss/defaultTheme");
+const colors = require("tailwindcss/colors");
 
 module.exports = {
     content: [
@@ -17,6 +18,9 @@ module.exports = {
                     },
                     ...defaultTheme.fontFamily.sans,
                 ],
+            },
+            colors: {
+                primary: colors.yellow,
             },
             minHeight: {
                 "100svh": "100svh",
