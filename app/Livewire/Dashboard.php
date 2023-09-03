@@ -38,7 +38,7 @@ class Dashboard extends Component
         ];
 
         return view('livewire.dashboard', [
-            'tasks' => [...$tasks, ...$tasks],
+            'tasks' => [...$tasks, ...$tasks, ...$tasks],
         ]);
     }
 }

@@ -14,7 +14,7 @@
 </head>
 
 <body class="font-sans antialiased text-gray-800 md:bg-gray-50 min-h-full flex flex-col">
-    <div class="relative flex flex-1 flex-col overflow-hidden md:pt-5">
+    <div class="relative flex flex-1 flex-col md:pt-5">
         <header>
             <nav
                 class="flex items-center justify-between pl-6 pr-4 md:pr-6 md:pl-9 py-2.5 md:py-4 border-b border-gray-100 md:border-none max-w-screen-lg mx-auto">
