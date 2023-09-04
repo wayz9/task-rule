@@ -290,20 +290,148 @@
                 <h6 class="text-sm/6 font-medium">
                     Actions
                 </h6>
+
                 <ul class="mt-2.5 flex flex-col gap-y-2.5">
-                    <li>
-                        <button
-                            class="group flex items-center gap-x-2 text-sm/6 font-medium text-gray-800 transition-colors focus:outline-none">
-                            <span class="inline-flex text-gray-400 group-hover:text-primary-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                        d="M12.207 2.232a.75.75 0 00.025 1.06l4.146 3.958H6.375a5.375 5.375 0 000 10.75H9.25a.75.75 0 000-1.5H6.375a3.875 3.875 0 010-7.75h10.003l-4.146 3.957a.75.75 0 001.036 1.085l5.5-5.25a.75.75 0 000-1.085l-5.5-5.25a.75.75 0 00-1.06.025z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </span>
-                            <span>Share task</span>
-                        </button>
+                    <li x-data="{ modalOpen: false }" @keydown.escape.window="modalOpen = false"
+                        class="relative z-50 w-auto h-auto">
+                        <div class="flex items-center gap-x-1.5">
+                            <button @click="modalOpen=true"
+                                class="group flex items-center gap-x-2 text-sm/6 font-medium text-gray-800 transition-colors focus:outline-none">
+                                <span class="inline-flex text-gray-400 group-hover:text-primary-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                                    </svg>
+                                </span>
+                                <span>Collaboration</span>
+                            </button>
+                            <span
+                                class="inline-block text-xs/5 px-2 rounded-full bg-sky-500/10 text-sky-800 font-semibold align-middle">New</span>
+                        </div>
+                        @teleport('body')
+                            <div x-show="modalOpen"
+                                class="fixed top-0 left-0 z-[99] flex items-center justify-center w-screen h-screen"
+                                x-cloak>
+                                <div x-show="modalOpen" x-transition:enter="ease-out duration-300"
+                                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                    x-transition:leave="ease-in duration-300" x-transition:leave-start="opacity-100"
+                                    x-transition:leave-end="opacity-0" @click="modalOpen=false"
+                                    class="absolute inset-0 w-full h-full bg-black/[0.15]"></div>
+                                <div x-show="modalOpen" x-trap.inert.noscroll="modalOpen"
+                                    x-transition:enter="ease-out duration-300"
+                                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                                    x-transition:leave="ease-in duration-200"
+                                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                    class="relative w-full bg-white sm:max-w-lg sm:rounded-2xl border border-gray-200">
+                                    <div class="flex items-center justify-between px-9 py-6 border-b border-gray-100">
+                                        <div class="flex items-center gap-x-2">
+                                            <span class="inline-flex text-gray-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                                                </svg>
+                                            </span>
+                                            <h4 class="text-base/7 font-medium">
+                                                Collaboration
+                                            </h4>
+                                        </div>
+                                        <button @click="modalOpen=false"
+                                            class="absolute top-0 right-0 flex items-center justify-center w-8 h-8 mt-5 mr-5 text-gray-600 rounded-full hover:text-gray-800 hover:bg-gray-50">
+                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="relative w-auto mb-5">
+                                        {{-- URL Sharing --}}
+                                        <div class="px-9 py-6 border-b border-gray-100">
+                                            <hgroup class="text-sm/6">
+                                                <h6 class="font-medium">Collab via URL</h6>
+                                                <p class="mt-1.5 text-gray-600">
+                                                    Make this task visible for the next 24 hours.
+                                                </p>
+                                            </hgroup>
+
+                                            <div class="mt-4 flex items-center">
+                                                <input type="text" x-data x-on:focus="$el.select()"
+                                                    value="https://task-rule.test/shareable/task/359129?cacheKey=12399123"
+                                                    class="block grow rounded-l-lg w-full border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6">
+                                                <button
+                                                    class="border-l-0 px-4 py-2 text-sm/6 font-semibold text-gray-700 border border-gray-200 rounded-r-lg hover:bg-gray-50 focus:outline-offset-2">Copy</button>
+                                            </div>
+                                        </div>
+
+                                        {{-- Inviting Access --}}
+                                        <div class="px-9 py-6 border-b border-gray-100">
+                                            <hgroup class="text-sm/6">
+                                                <h6 class="font-medium">
+                                                    Invite People
+                                                    <span
+                                                        class="inline-block text-xs/5 px-2 rounded-full bg-sky-500/10 text-sky-800 font-semibold align-middle">
+                                                        New
+                                                    </span>
+                                                </h6>
+                                                <p class="mt-1.5 text-gray-600">
+                                                    Share this task with only people you invited.
+                                                </p>
+                                            </hgroup>
+
+                                            <div class="mt-4 flex items-center">
+                                                <input type="email" placeholder="Email address"
+                                                    class="block grow rounded-l-lg w-full border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6">
+                                                <button
+                                                    class="border-l-0 px-4 py-2 text-sm/6 font-semibold text-gray-700 border border-gray-200 rounded-r-lg hover:bg-gray-50 focus:outline-offset-2">Invite</button>
+                                            </div>
+
+                                            <div class="mt-2.5 flex items-center gap-x-1 text-xs text-gray-600">
+                                                <div class="inline-flex">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"
+                                                        class="w-4 h-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                    </svg>
+                                                </div>
+                                                <span>
+                                                    Invites are only sent to existing users on <span
+                                                        class="font-medium text-gray-800">{{ config('app.name') }}</span>.
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {{-- Email Sharing --}}
+                                        <div class="px-9 py-6 border-b border-gray-100">
+                                            <hgroup class="text-sm/6">
+                                                <h6 class="font-medium">
+                                                    Email Sharing
+                                                    <span
+                                                        class="inline-block text-xs/5 px-2 rounded-full bg-sky-500/10 text-sky-800 font-semibold align-middle">
+                                                        Coming Soon
+                                                    </span>
+                                                </h6>
+                                                <p class="mt-1.5 text-gray-600">
+                                                    Email a copy of the task to your friend or colleagues.
+                                                </p>
+                                            </hgroup>
+
+                                            <div class="mt-4 flex items-center">
+                                                <input type="email" placeholder="Email address" disabled
+                                                    class="block grow rounded-l-lg w-full border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6 disabled:bg-gray-50 disabled:cursor-not-allowed">
+                                                <button disabled
+                                                    class="border-l-0 px-4 py-2 text-sm/6 font-semibold text-gray-700 border border-gray-200 rounded-r-lg hover:bg-gray-50 focus:outline-offset-2 disabled:bg-gray-50 disabled:cursor-not-allowed">Invite</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endteleport
                     </li>
                     <li>
                         <button
@@ -339,6 +467,20 @@
                             class="group flex items-center gap-x-2 text-sm/6 font-medium text-gray-800 transition-colors focus:outline-none">
                             <span class="inline-flex text-gray-400 group-hover:text-primary-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                                </svg>
+                            </span>
+                            <span>Add tags</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            class="group flex items-center gap-x-2 text-sm/6 font-medium text-gray-800 transition-colors focus:outline-none">
+                            <span class="inline-flex text-gray-400 group-hover:text-primary-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.7" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
@@ -349,10 +491,12 @@
                     </li>
                 </ul>
             </div>
+
             <div class="mt-10 px-7">
                 <h6 class="text-sm/6 font-medium">
                     Storage
                 </h6>
+
                 <ul class="mt-2.5 flex flex-col gap-y-2.5">
                     @foreach (['some_file.pdf', 'figma_image_drawing.svg', 'tailwindcss_logo.png'] as $item)
                         <li>
