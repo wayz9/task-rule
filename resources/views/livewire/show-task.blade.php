@@ -12,7 +12,7 @@
         </hgroup>
 
         {{-- Tailwind Prose Content Here --}}
-        <div class="mt-9 mb-16 px-11 max-w-none prose prose-gray prose-yellow">
+        <div class="mt-9 mb-16 px-11 max-w-none prose prose-gray prose-violet">
             <h3>Getting started</h3>
             <p>By default, Tailwind removes all of the default browser styling from paragraphs, headings, lists and
                 more. This ends up being really useful for building application UIs because you spend less time
@@ -276,20 +276,20 @@
         <div class="sticky top-0 pt-16">
             <h4 class="px-7 text-base/7 font-semibold">Summary</h4>
             <hgroup class="mt-6 px-7">
-                <h6 class="text-sm/6 font-medium">
+                <div class="text-sm/6 font-medium">
                     AI - Echomancer
                     <span
                         class="inline-block text-xs/5 px-2 rounded-full bg-sky-500/10 text-sky-800 font-semibold align-middle">Beta</span>
-                </h6>
+                </div>
                 <p class="mt-2.5 text-sm/6 text-gray-600">
                     Revamp banner: modern CSS, animations, responsive design, typography upgrade, fusion of styles, user
                     accessibility, iterative collaboration.
                 </p>
             </hgroup>
             <div class="mt-10 px-7">
-                <h6 class="text-sm/6 font-medium">
+                <div class="text-sm/6 font-medium">
                     Actions
-                </h6>
+                </div>
 
                 <ul class="mt-2.5 flex flex-col gap-y-2.5">
                     <li x-data="{ modalOpen: false }" @keydown.escape.window="modalOpen = false"
@@ -353,14 +353,14 @@
                                         {{-- URL Sharing --}}
                                         <div class="px-9 py-6 border-b border-gray-100">
                                             <hgroup class="text-sm/6">
-                                                <h6 class="font-medium">Collab via URL</h6>
+                                                <div class="font-medium">Collab via URL</div>
                                                 <p class="mt-1.5 text-gray-600">
                                                     Make this task visible for the next 24 hours.
                                                 </p>
                                             </hgroup>
 
                                             <div class="mt-4 flex items-center">
-                                                <input type="text" x-data x-on:focus="$el.select()"
+                                                <input type="text" x-data x-on:focus="$el.select()" readonly
                                                     value="https://task-rule.test/shareable/task/359129?cacheKey=12399123"
                                                     class="block grow rounded-l-lg w-full border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6">
                                                 <button
@@ -371,13 +371,13 @@
                                         {{-- Inviting Access --}}
                                         <div class="px-9 py-6 border-b border-gray-100">
                                             <hgroup class="text-sm/6">
-                                                <h6 class="font-medium">
+                                                <div class="font-medium">
                                                     Invite People
                                                     <span
                                                         class="inline-block text-xs/5 px-2 rounded-full bg-sky-500/10 text-sky-800 font-semibold align-middle">
                                                         New
                                                     </span>
-                                                </h6>
+                                                </div>
                                                 <p class="mt-1.5 text-gray-600">
                                                     Share this task with only people you invited.
                                                 </p>
@@ -409,13 +409,13 @@
                                         {{-- Email Sharing --}}
                                         <div class="px-9 py-6 border-b border-gray-100">
                                             <hgroup class="text-sm/6">
-                                                <h6 class="font-medium">
+                                                <div class="font-medium">
                                                     Email Sharing
                                                     <span
                                                         class="inline-block text-xs/5 px-2 rounded-full bg-sky-500/10 text-sky-800 font-semibold align-middle">
                                                         Coming Soon
                                                     </span>
-                                                </h6>
+                                                </div>
                                                 <p class="mt-1.5 text-gray-600">
                                                     Email a copy of the task to your friend or colleagues.
                                                 </p>
@@ -493,9 +493,9 @@
             </div>
 
             <div class="mt-10 px-7">
-                <h6 class="text-sm/6 font-medium">
+                <div class="text-sm/6 font-medium">
                     Storage
-                </h6>
+                </div>
 
                 <ul class="mt-2.5 flex flex-col gap-y-2.5">
                     @foreach (['some_file.pdf', 'figma_image_drawing.svg', 'tailwindcss_logo.png'] as $item)
@@ -516,9 +516,9 @@
                 </ul>
             </div>
             <div class="mt-10 px-7">
-                <h6 class="text-sm/6 font-medium">
+                <div class="text-sm/6 font-medium">
                     Links
-                </h6>
+                </div>
                 <ul class="mt-2.5 flex flex-col gap-y-2.5">
                     @foreach (['github.com/wayz9', 'google.com/q?search+terms', 'task-rule.test/task/very-long-url-repeated-forever'] as $item)
                         <li>

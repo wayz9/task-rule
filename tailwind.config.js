@@ -32,7 +32,7 @@ module.exports = {
                 ],
             },
             colors: {
-                primary: colors.yellow,
+                primary: colors.violet,
             },
             minHeight: {
                 "100svh": "100svh",
