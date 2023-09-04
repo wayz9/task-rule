@@ -16,7 +16,7 @@
             <form action="{{ route('password.email') }}" method="POST" class="mt-10 w-full">
                 @csrf
 
-                <input type="email" placeholder="Email address" name="email"
+                <input type="email" placeholder="Email address" name="email" required autocomplete="email"
                     class="block w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6" />
 
                 <button type="submit"
