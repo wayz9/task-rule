@@ -10,6 +10,18 @@ module.exports = {
     ],
     theme: {
         extend: {
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        "h2, h3, h4": {
+                            fontWeight: theme("fontWeight.medium"),
+                        },
+                        strong: {
+                            fontWeight: theme("fontWeight.medium"),
+                        },
+                    },
+                },
+            }),
             fontFamily: {
                 sans: [
                     "Inter var",
@@ -27,5 +39,5 @@ module.exports = {
             },
         },
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/typography")],
 };

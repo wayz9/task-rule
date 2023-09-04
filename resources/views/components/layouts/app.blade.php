@@ -23,7 +23,7 @@
                 </a>
 
                 <ul class="hidden md:flex text-sm/6 font-medium gap-9">
-                    <li><a href="#">Overview</a></li>
+                    <li><a href="{{ route('home') }}">Overview</a></li>
                     <li><a href="#">Schedule</a></li>
                     <li><a href="#">Changes</a></li>
                     <li><a href="#">Help</a></li>

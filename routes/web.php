@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Dashboard;
+use App\Livewire\ShowTask;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Dashboard::class)
     ->middleware('auth', 'verified')
     ->name('home');
+
+Route::get('/tasks/{task}', ShowTask::class)
+    ->middleware('auth', 'verified') // Add Policy
+    ->name('task.show');

@@ -6,7 +6,7 @@
     </hgroup>
 
     <div class="relative">
-        <div id="tabs" class="sticky top-0 border-y border-gray-100 border-b-gray-200 bg-white">
+        <div id="tabs" class="relative border-y border-gray-100 border-b-gray-200 bg-white">
             <ul class="-mb-px md:ml-8 flex overflow-hidden hover:overflow-x-auto whitespace-nowrap pr-[62px]">
                 <li>
                     <button class="py-3.5 px-6 text-sm/6 font-semibold text-gray-900 border-b border-gray-600">
@@ -116,16 +116,5 @@
         </div>
     </div>
 
-    <div class="hidden md:block absolute -right-2 -top-2 h-40 w-40 overflow-hidden">
-        <span class="absolute top-0 h-2 w-2 bg-primary-600"></span>
-        <span class="absolute bottom-0 right-0 h-2 w-2 bg-primary-600"></span>
-        <div
-            class="absolute bottom-0 right-0 block w-[calc(100%*1.4142)] origin-bottom-right rotate-45 bg-primary-300 p-2 text-center text-sm leading-tight">
-            <span class="text-xs font-semibold uppercase text-primary-700">
-                App Version 0.1.0
-            </span>
-            <br />
-            <span class="font-bold">Currently In Beta</span>
-        </div>
-    </div>
+    <x-ribbon />
 </div>
