@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -13,6 +14,23 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, 
         HasFactory, 
         Notifiable;
+
+    protected static function booted()
+    {
+        static::created(fn (self $user) =>
+            $user->categories()->create([
+                'name' => 'Default',
+            ])
+        );
+    }
+
+    /**
+     * User has many categories.
+     */
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
