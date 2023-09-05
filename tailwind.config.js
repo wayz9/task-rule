@@ -13,7 +13,7 @@ module.exports = {
             typography: (theme) => ({
                 DEFAULT: {
                     css: {
-                        "h2, h3, h4": {
+                        "h1, h2, h3, h4": {
                             fontWeight: theme("fontWeight.medium"),
                         },
                         strong: {

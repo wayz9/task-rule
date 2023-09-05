@@ -1,18 +1,18 @@
 <div class="relative bg-white md:rounded-t-3xl grow shadow-sm md:border-x md:border-t border-gray-900/5">
     <div class="lg:mr-[21.25rem]">
-        <hgroup class="pt-9 px-11">
+        <hgroup class="pt-9 px-6 md:px-11">
             <p class="text-sm/6 text-gray-500">{{ now()->format('d F Y') }}</p>
-            <h1 class="mt-1.5 text-[1.5rem]/9 font-medium">
-                Update the CSS styles for the homepage banner.
+            <h1 class="mt-1.5 text-[1.75rem]/9 font-semibold">
+                Update the CSS styles for the hero section.
                 <span
-                    class="py-0.5 ml-2 inline-block px-3 rounded-full bg-violet-500/10 text-violet-800 text-sm/6 align-middle">
+                    class="py-0.5 ml-2 inline-block font-medium px-3 rounded-full bg-violet-500/10 text-violet-800 text-sm/6 align-middle">
                     Important
                 </span>
             </h1>
         </hgroup>
 
         {{-- Tailwind Prose Content Here --}}
-        <div class="mt-9 mb-16 px-11 max-w-none prose prose-gray prose-violet">
+        <div class="mt-9 mb-16 px-6 md:px-11 max-w-none prose prose-gray prose-violet">
             <h3>Getting started</h3>
             <p>By default, Tailwind removes all of the default browser styling from paragraphs, headings, lists and
                 more. This ends up being really useful for building application UIs because you spend less time
@@ -359,12 +359,26 @@
                                                 </p>
                                             </hgroup>
 
-                                            <div class="mt-4 flex items-center">
+                                            <div x-data="{
+                                                uri: 'https://task-rule.test/shareable/task/359129?cacheKey=12399123',
+                                                copyNotification: false,
+                                                copyToClipboard() {
+                                                    navigator.clipboard.writeText(this.uri);
+                                                    this.copyNotification = true;
+                                                    let that = this;
+                                                    setTimeout(function() {
+                                                        that.copyNotification = false;
+                                                    }, 3000);
+                                                }
+                                            }" class="mt-4 flex items-center">
                                                 <input type="text" x-data x-on:focus="$el.select()" readonly
-                                                    value="https://task-rule.test/shareable/task/359129?cacheKey=12399123"
+                                                    x-model="uri"
                                                     class="block grow rounded-l-lg w-full border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6">
-                                                <button
-                                                    class="border-l-0 px-4 py-2 text-sm/6 font-semibold text-gray-700 border border-gray-200 rounded-r-lg hover:bg-gray-50 focus:outline-offset-2">Copy</button>
+                                                <button @click="copyToClipboard(uri)"
+                                                    class="border-l-0 px-4 py-2 text-sm/6 font-semibold text-gray-700 border border-gray-200 rounded-r-lg hover:bg-gray-50 focus:outline-offset-2">
+                                                    <span x-show="!copyNotification">Copy</span>
+                                                    <span x-show="copyNotification">Copied</span>
+                                                </button>
                                             </div>
                                         </div>
 
