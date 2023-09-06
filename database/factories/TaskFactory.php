@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\Priority;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,11 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->sentence(5),
+            'priority' => fake()->randomElement(Priority::cases()),
+            'description' => fake()->simpleMarkdown(),
+            'user_id' => User::factory(),
+            'category_id' => Category::factory(),
         ];
     }
 }

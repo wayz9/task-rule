@@ -20,6 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
         static::created(fn (self $user) =>
             $user->categories()->create([
                 'name' => 'Default',
+                'is_default' => true,
+                'slug' => 'default',
             ])
         );
     }

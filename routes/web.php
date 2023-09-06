@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Dashboard::class)
+Route::get('/workspace/{slug?}', Dashboard::class)
     ->middleware('auth', 'verified')
     ->name('home');
 
 Route::get('/tasks/{task}', ShowTask::class)
     ->middleware('auth', 'verified') // Add Policy
-    ->name('task.show');
+    ->name('tasks.show');

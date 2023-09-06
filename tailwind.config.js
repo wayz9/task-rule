@@ -8,6 +8,14 @@ module.exports = {
         "./resources/**/*.js",
         "./resources/**/*.vue",
     ],
+    safelist: [
+        "bg-violet-500/10",
+        "text-violet-800",
+        "bg-yellow-500/10",
+        "text-yellow-700",
+        "bg-gray-100",
+        "text-gray-700",
+    ],
     theme: {
         extend: {
             typography: (theme) => ({
@@ -39,5 +47,8 @@ module.exports = {
             },
         },
     },
-    plugins: [require("@tailwindcss/typography")],
+    plugins: [
+        require("@tailwindcss/typography"),
+        require("tailwind-scrollbar"),
+    ],
 };

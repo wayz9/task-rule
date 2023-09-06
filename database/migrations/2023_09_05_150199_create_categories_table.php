@@ -18,6 +18,8 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
             $table->string('name');
+            $table->string('slug');
+            $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
     }

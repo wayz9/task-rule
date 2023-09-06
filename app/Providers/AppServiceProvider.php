@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
     }
 
     /**
@@ -36,5 +36,12 @@ class AppServiceProvider extends ServiceProvider
                 ->numbers()
                 ->symbols()
         );
+
+
+        if (! $this->app->environment('production')) {
+            $faker = fake();
+
+            $faker->addProvider(new \App\Utils\Faker\MarkdownProvider($faker));
+        }
     }
 }

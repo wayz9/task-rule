@@ -18,12 +18,12 @@
         <header>
             <nav
                 class="flex items-center justify-between pl-6 pr-4 md:pr-6 md:pl-9 py-2.5 md:py-4 border-b border-gray-100 md:border-none max-w-screen-lg mx-auto">
-                <a href="#">
+                <a wire:navigate.hover href="{{ route('home') }}">
                     <img src="{{ Vite::image('logo.svg') }}" alt="{{ config('app.name') }}">
                 </a>
 
                 <ul class="hidden md:flex text-sm/6 font-medium gap-9">
-                    <li><a href="{{ route('home') }}">Overview</a></li>
+                    <li><a wire:navigate.hover href="{{ route('home') }}">Overview</a></li>
                     <li><a href="#">Schedule</a></li>
                     <li><a href="#">Changes</a></li>
                     <li><a href="#">Help</a></li>
