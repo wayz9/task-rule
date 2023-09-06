@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Dashboard;
+use App\Livewire\EditTask;
 use App\Livewire\ShowTask;
 use Illuminate\Support\Facades\Route;
 
@@ -20,5 +21,9 @@ Route::get('/workspace/{slug?}', Dashboard::class)
     ->name('home');
 
 Route::get('/tasks/{task}', ShowTask::class)
-    ->middleware('auth', 'verified') // Add Policy
+    ->middleware('auth', 'verified')
     ->name('tasks.show');
+
+Route::get('/tasks/{task}/edit', EditTask::class)
+    ->middleware('auth', 'verified')
+    ->name('tasks.edit');
