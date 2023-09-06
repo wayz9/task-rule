@@ -4,10 +4,12 @@
             <p class="text-sm/6 text-gray-500">{{ $task->created_at->format('d F Y') }}</p>
             <h1 class="mt-1.5 text-[1.75rem]/9 font-semibold">
                 {{ $task->title }}
-                <span
-                    class="py-0.5 ml-2 inline-block font-medium px-3 rounded-full text-sm/6 align-middle {{ $task->priority->getPillClasses() }}">
-                    {{ $task->priority->name }}
-                </span>
+                @if ($task->priority)
+                    <span
+                        class="py-0.5 ml-2 inline-block font-medium px-3 rounded-full text-sm/6 align-middle {{ $task->priority->getPillClasses() }}">
+                        {{ $task->priority->name }}
+                    </span>
+                @endif
             </h1>
         </hgroup>
 
