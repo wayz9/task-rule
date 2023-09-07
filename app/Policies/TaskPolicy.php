@@ -29,7 +29,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        //
+        return $user->getKey() === $task->user_id;
     }
 
     /**

@@ -15,6 +15,8 @@
 
 <body class="bg-gray-50 antialiased text-gray-800 min-h-screen">
     {{ $slot }}
+
+    @include('reusables.toast')
 </body>
 
 @livewireScriptConfig()
