@@ -8,11 +8,12 @@ import { getHighlighter } from "shikiji";
 import { markedHighlight } from "marked-highlight";
 
 let shiki;
+const supportedLanguages = ["javascript", "html", "php", "json"];
 
 async function setupShikiji() {
     shiki = await getHighlighter({
-        themes: ["github-dark"],
-        langs: ["javascript", "html", "php"],
+        themes: ["github-light", "github-dark"],
+        langs: supportedLanguages,
     });
 }
 
@@ -22,7 +23,18 @@ const markedInstance = new Marked(
     markedHighlight({
         langPrefix: "shiki language-",
         highlight(code, lang) {
-            return shiki.codeToHtml(code, { lang, theme: "github-dark" });
+            if (!supportedLanguages.includes(lang)) {
+                return code;
+            }
+
+            const theme =
+                window.parent.document.documentElement.classList.contains(
+                    "dark"
+                )
+                    ? "github-dark"
+                    : "github-light";
+
+            return shiki.codeToHtml(code, { lang, theme: theme });
         },
     })
 );
