@@ -5,3 +5,11 @@
 [x-cloak] {
     display: none;
 }
+
+.shiki .github-light {
+    @apply !p-4 !bg-gray-50 !rounded-xl !border !border-gray-100;
+}
+
+.shiki .github-dark {
+    @apply !p-4 !bg-gray-900 !rounded-xl !border !border-gray-800;
+}

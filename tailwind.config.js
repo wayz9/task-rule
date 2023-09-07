@@ -27,6 +27,40 @@ module.exports = {
                         strong: {
                             fontWeight: theme("fontWeight.medium"),
                         },
+                        pre: false,
+                        code: false,
+                        ul: {
+                            listStyleType: "disc",
+                        },
+                        ol: {
+                            listStyleType: "decimal",
+                        },
+                        "ul, ol": {
+                            paddingLeft: theme("spacing.6"),
+                        },
+                        li: {
+                            marginTop: theme("spacing.0"),
+                            marginBottom: theme("spacing.0"),
+                            paddingLeft: theme("spacing[1.5]"),
+                        },
+                        "li::marker": {
+                            fontSize: theme("fontSize.sm")[0],
+                            fontWeight: theme("fontWeight.semibold"),
+                        },
+                        "ol > li::marker": {
+                            color: "var(--tw-prose-counters)",
+                        },
+                        "ul > li::marker": {
+                            color: "var(--tw-prose-bullets)",
+                        },
+                        "li :is(ol, ul)": {
+                            marginTop: theme("spacing.4"),
+                            marginBottom: theme("spacing.4"),
+                        },
+                        "li :is(li, p)": {
+                            marginTop: theme("spacing.3"),
+                            marginBottom: theme("spacing.3"),
+                        },
                     },
                 },
             }),
