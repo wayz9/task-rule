@@ -14,9 +14,28 @@
         </hgroup>
 
         {{-- Tailwind Prose Content Here --}}
-        <div x-data class="mt-9 mb-16 px-6 md:px-11 max-w-none prose prose-gray prose-violet">
-            <div x-html="new Marked().parse({{ Js::from($task->description) }});">
+        <div x-data="markdown({{ Js::from($task->description) }})" class="mt-9 mb-16 px-6 md:px-11 max-w-none prose prose-gray prose-violet">
+            <div x-show="isLoading" class="not-prose">
+                <div class="w-1/3 h-6 bg-gray-100 animate-pulse"></div>
+                <div class="mt-4 w-full h-5 bg-gray-100 animate-pulse"></div>
+                <div class="mt-1 w-full h-5 bg-gray-100 animate-pulse"></div>
+                <div class="mt-1 w-4/5 h-5 bg-gray-100 animate-pulse"></div>
 
+                <div class="mt-8 w-1/3 h-6 bg-gray-100 animate-pulse"></div>
+                <div class="mt-4 w-full h-5 bg-gray-100 animate-pulse"></div>
+                <div class="mt-1 w-full h-5 bg-gray-100 animate-pulse"></div>
+
+                <div class="mt-8 w-1/2 h-6 bg-gray-100 animate-pulse"></div>
+                <div class="mt-4 w-1/6 h-5 bg-gray-100 animate-pulse"></div>
+                <div class="mt-2 w-1/6 h-5 bg-gray-100 animate-pulse"></div>
+                <div class="mt-2 w-1/6 h-5 bg-gray-100 animate-pulse"></div>
+                <div class="mt-6 w-full h-36 bg-gray-100 animate-pulse"></div>
+
+                <div class="mt-8 w-1/3 h-6 bg-gray-100 animate-pulse"></div>
+                <div class="mt-4 w-full h-5 bg-gray-100 animate-pulse"></div>
+                <div class="mt-1 w-full h-5 bg-gray-100 animate-pulse"></div>
+            </div>
+            <div x-html="parsedContent">
             </div>
         </div>
     </div>
