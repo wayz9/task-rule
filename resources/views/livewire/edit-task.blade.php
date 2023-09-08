@@ -4,7 +4,7 @@
             spellcheck="false" placeholder="🚀 Start noting, start doing. Your tasks come alive with markdown!"
             class="block w-full h-full border-none p-16 focus:outline-none placeholder:text-sm/7 placeholder:text-gray-500 resize-none"></textarea>
 
-        <div id="tool-sidebar" class="absolute -mr-px right-full inset-y-0 flex flex-col items-end gap-y-1.5 pt-32">
+        <div id="tool-sidebar" class="absolute -mr-px right-full inset-y-0 flex flex-col items-end gap-y-1.5 pt-16">
             <div
                 class="mb-8 py-2 px-4 border border-r-0 border-gray-100 bg-white rounded-l-lg text-xs uppercase font-semibold text-gray-600 whitespace-nowrap">
                 Markdown v0.1.0

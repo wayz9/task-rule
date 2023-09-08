@@ -34,7 +34,7 @@ class EditTask extends Component
         // $property: The name of the current property that was updated
         $validator = validator()->make(
             ['image' => $this->image],
-            ['image' => ['required', 'image', 'max:2024']],
+            ['image' => ['required', 'image', 'max:4069']],
         );
 
         if ($validator->fails()) {

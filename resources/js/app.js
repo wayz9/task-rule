@@ -91,19 +91,27 @@ Alpine.data("editor", (content = "") => ({
 
             const file = files[0];
 
-            if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
-                toast("You can only upload images.", {
-                    type: "danger",
-                });
-                return;
-            }
-
-            if (file.size > 2 * 1024 * 1024) {
-                toast("File size should be less than 2MB.", { type: "danger" });
-                return;
-            }
-
             this.handleFileUpload(file);
+        });
+
+        this.$refs.editorArea.addEventListener("paste", (event) => {
+            const items = event.clipboardData.items;
+            let isImagePresent = false;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf("image") === 0) {
+                    isImagePresent = true;
+                    const file = items[i].getAsFile();
+
+                    this.handleFileUpload(file);
+
+                    event.preventDefault();
+                    break;
+                }
+            }
+
+            if (!isImagePresent) {
+                return;
+            }
         });
 
         window.Livewire.on("image-uploaded", (data) => {
@@ -126,6 +134,18 @@ Alpine.data("editor", (content = "") => ({
         this.$refs.editorArea.focus();
     },
     handleFileUpload(file) {
+        if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
+            toast("You can only upload images.", {
+                type: "danger",
+            });
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            toast("File size should be less than 2MB.", { type: "danger" });
+            return;
+        }
+
         this.$refs.editorArea.disabled = true;
 
         const placeholder = "[Image](Uploading...)";
