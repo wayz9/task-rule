@@ -3,7 +3,9 @@ import {
     Alpine,
 } from "../../vendor/livewire/livewire/dist/livewire.esm";
 import.meta.glob(["../images/**"]);
+import { Marked } from "marked";
 
+window.Marked = Marked;
 Alpine.data("contextMenu", () => ({
     contextMenuOpen: false,
     contextMenuToggle: function (event) {

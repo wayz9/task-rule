@@ -14,8 +14,10 @@
         </hgroup>
 
         {{-- Tailwind Prose Content Here --}}
-        <div class="mt-9 mb-16 px-6 md:px-11 max-w-none prose prose-gray prose-violet">
-            {!! Markdown::parse(fake()->markdownWithImage()) !!}
+        <div x-data class="mt-9 mb-16 px-6 md:px-11 max-w-none prose prose-gray prose-violet">
+            <div x-html="new Marked().parse({{ Js::from($task->description) }});">
+
+            </div>
         </div>
     </div>
 

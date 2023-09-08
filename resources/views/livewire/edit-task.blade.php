@@ -1,4 +1,4 @@
-<div x-data="editor" class="relative flex justify-end max-w-screen-2xl mx-auto bg-white border-x border-gray-100">
+<div x-data="editor({{ Js::from($task->description) }})" class="relative flex justify-end max-w-screen-2xl mx-auto bg-white border-x border-gray-100">
     <div id="editor" class="sticky top-0 w-1/2 h-screen overscroll-contain border-r border-gray-100">
         <textarea x-on:input.debounce="updateParsedContent" x-ref="editorArea" x-model="content" wire:model="content"
             x-on:theme-switched.window="updateParsedContent" spellcheck="false"
@@ -72,7 +72,7 @@
             <div class="flex items-center gap-x-4">
                 <a href="{{ route('tasks.show', $task) }}"
                     class="rounded-lg border border-gray-200 px-4 py-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 focus:outline-offset-2">Cancel</a>
-                <button
+                <button wire:click="save()" wire:loading.attr="disabled" wire:target="save"
                     class="rounded-lg bg-gray-900 px-4 py-2 text-sm/6 font-semibold text-gray-50 hover:bg-gray-800 focus:outline-offset-2">
                     Save Changes
                 </button>

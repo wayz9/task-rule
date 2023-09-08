@@ -6,10 +6,9 @@ import.meta.glob(["../images/**"]);
 import { Marked } from "marked";
 import { getHighlighter } from "shikiji";
 import { markedHighlight } from "marked-highlight";
-import axios from "axios";
 
 let shiki;
-const supportedLanguages = ["javascript", "html", "php", "json"];
+const supportedLanguages = ["javascript", "html", "php", "json", "bash"];
 
 async function setupShikiji() {
     shiki = await getHighlighter({
@@ -47,8 +46,8 @@ renderer.text = (text) => {
 
 markedInstance.use({ renderer });
 
-Alpine.data("editor", () => ({
-    content: "",
+Alpine.data("editor", (content = "") => ({
+    content: content,
     parsedContent: "",
     init() {
         this.updateParsedContent();

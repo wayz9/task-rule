@@ -52,6 +52,19 @@ class EditTask extends Component
         }
     }
 
+    public function save(): void
+    {
+        $this->validate([
+            'content' => ['required', 'string'], // Max and Sanitize
+        ]);
+
+        $this->task->update([
+            'description' => $this->content,
+        ]);
+
+        $this->redirectRoute('tasks.show', $this->task);
+    }
+
     #[Layout('components.layouts.editor')]
     public function render(): View
     {
