@@ -92,14 +92,14 @@ Alpine.data("editor", () => ({
             const file = files[0];
 
             if (!["image/png", "image/jpg", "image/jpeg"].includes(file.type)) {
-                toast("Only PNG, JPG, and JPEG files are allowed.", {
-                    type: "error",
+                toast("You can only upload images.", {
+                    type: "danger",
                 });
                 return;
             }
 
             if (file.size > 2 * 1024 * 1024) {
-                toast("File size should be less than 2MB.", { type: "error" });
+                toast("File size should be less than 2MB.", { type: "danger" });
                 return;
             }
 
