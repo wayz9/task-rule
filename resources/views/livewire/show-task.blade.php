@@ -14,7 +14,8 @@
         </hgroup>
 
         {{-- Tailwind Prose Content Here --}}
-        <div x-data="markdown({{ Js::from($task->description) }})" class="mt-9 mb-16 px-6 md:px-11 max-w-none prose prose-gray prose-violet">
+        <div wire:ignore x-data="markdown({{ Js::from($task->description) }})"
+            class="mt-9 mb-16 px-6 md:px-11 max-w-none prose prose-gray prose-violet">
             <div x-show="isLoading" class="not-prose">
                 <div class="w-1/3 h-6 bg-gray-100 animate-pulse"></div>
                 <div class="mt-4 w-full h-5 bg-gray-100 animate-pulse"></div>
@@ -230,7 +231,7 @@
                         </button>
                     </li>
                     <li>
-                        <button
+                        <button wire:click="downloadTXT" wire:loading.attr="disabled" wire:target="downloadTXT"
                             class="group flex items-center gap-x-2 text-sm/6 font-medium text-gray-800 transition-colors focus:outline-none">
                             <span class="inline-flex text-gray-400 group-hover:text-primary-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

@@ -17,39 +17,41 @@ class EditTask extends Component
     public Task $task;
 
     public $image;
-    public $content = '';
+    public $content;
+
+    public function mount()
+    {
+        $this->content = $this->task->description;
+    }
 
     public function boot()
     {
         $this->authorize('view', $this->task);
     }
 
-    public function updated($property)
+    public function updatedImage()
     {
         // $property: The name of the current property that was updated
- 
-        if ($property === 'image') {
-            $validator = validator()->make(
-                ['image' => $this->image],
-                ['image' => ['required', 'image', 'max:2024']],
-            );
+        $validator = validator()->make(
+            ['image' => $this->image],
+            ['image' => ['required', 'image', 'max:2024']],
+        );
 
-            if ($validator->fails()) {
-                $this->reset('image');
-                $this->js('toast(
-                    "The image must be a file of type: jpeg, png, jpg, gif, svg, webp, max: 2MB",
-                    {type: "error"}
-                )');
+        if ($validator->fails()) {
+            $this->reset('image');
+            $this->js('toast(
+                "The image must be a file of type: jpeg, png, jpg, gif, svg, webp, max: 2MB",
+                {type: "error"}
+            )');
 
-                return;
-            }
-
-            $path = $this->image->storePublicly(
-                "images/{$this->task->getKey()}",
-            );
-
-            $this->dispatch('image-uploaded', url: asset("storage/{$path}"));
+            return;
         }
+
+        $path = $this->image->storePublicly(
+            "images/{$this->task->getKey()}",
+        );
+
+        $this->dispatch('image-uploaded', url: asset("storage/{$path}"));
     }
 
     public function save(): void

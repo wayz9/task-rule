@@ -1,8 +1,7 @@
 <div x-data="editor({{ Js::from($task->description) }})" class="relative flex justify-end max-w-screen-2xl mx-auto bg-white border-x border-gray-100">
     <section id="editor" class="sticky top-0 w-1/2 h-screen overscroll-contain border-r border-gray-100 pb-24">
         <textarea x-on:input.debounce="updateParsedContent" x-ref="editorArea" x-model="content" wire:model="content"
-            x-on:theme-switched.window="updateParsedContent" spellcheck="false"
-            placeholder="🚀 Start noting, start doing. Your tasks come alive with markdown!"
+            spellcheck="false" placeholder="🚀 Start noting, start doing. Your tasks come alive with markdown!"
             class="block w-full h-full border-none p-16 focus:outline-none placeholder:text-sm/7 placeholder:text-gray-500 resize-none"></textarea>
 
         <div id="tool-sidebar" class="absolute -mr-px right-full inset-y-0 flex flex-col items-end gap-y-1.5 pt-32">
@@ -56,7 +55,7 @@
         </div>
     </section>
 
-    <aside id="preview" class="basis-1/2">
+    <aside id="preview" class="basis-1/2" wire:ignore>
         <div class="p-16 pb-32 max-w-none prose prose-gray prose-violet" x-html="parsedContent">
         </div>
     </aside>

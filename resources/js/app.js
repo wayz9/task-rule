@@ -13,7 +13,7 @@ const supportedLanguages = ["javascript", "html", "php", "json", "bash"];
 async function setupShikiji() {
     if (!shiki) {
         shiki = await getHighlighter({
-            themes: ["github-light", "github-dark"],
+            themes: ["github-light"],
             langs: supportedLanguages,
         });
     }
@@ -31,14 +31,7 @@ async function resolveMarkedInstance() {
                     return code;
                 }
 
-                const theme =
-                    window.parent.document.documentElement.classList.contains(
-                        "dark"
-                    )
-                        ? "github-dark"
-                        : "github-light";
-
-                return shiki.codeToHtml(code, { lang, theme: theme });
+                return shiki.codeToHtml(code, { lang, theme: "github-light" });
             },
         })
     );
