@@ -1,15 +1,11 @@
 <?php
 
 use App\Models\User;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Livewire\Auth;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as AuthFacade;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -29,7 +25,14 @@ Route::get('/reset-password/{token}', Auth\ResetPassword::class)
     ->middleware('guest')
     ->name('password.reset');
 
-Route::any('/logout', [AuthenticatedSessionController::class, 'destroy'])
+Route::any('/logout', function(Request $request) {
+    AuthFacade::guard('web')->logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return to_route('home');
+})
     ->middleware('auth')
     ->name('logout');
 
