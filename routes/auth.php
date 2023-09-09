@@ -2,44 +2,44 @@
 
 use App\Models\User;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Livewire\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+Route::get('/login', Auth\Login::class)
     ->middleware('guest')
     ->name('login');
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-
-Route::get('/register', [RegisteredUserController::class, 'create'])
+Route::get('/register', Auth\Register::class)
     ->middleware('guest')
     ->name('register');
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware('guest');
-
-Route::view('/forgot-password', 'auth.forgot-password')
+Route::get('/forgot-password', Auth\ForgotPassword::class)
     ->middleware('guest')
     ->name('password.request');
 
-Route::post('/forgot-password', PasswordResetLinkController::class)
-    ->middleware('guest', 'throttle:6,1')
-    ->name('password.email');
-
-Route::view('/reset-password/{token}', 'auth.reset-password')
+Route::get('/reset-password/{token}', Auth\ResetPassword::class)
     ->middleware('guest')
     ->name('password.reset');
 
-Route::post('/reset-password', NewPasswordController::class)
-    ->middleware('guest')
-    ->name('password.update');
-
 Route::any('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
     ->name('logout');
+
+Route::get('verify-email', Auth\EmailVerification::class)
+    ->middleware('auth')
+    ->name('verification.notice');
+
+Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['auth', 'signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 Route::get('/auth/github/redirect', fn() => Socialite::driver('github')->redirect())
     ->middleware('guest')

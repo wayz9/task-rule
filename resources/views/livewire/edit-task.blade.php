@@ -1,4 +1,5 @@
-<div x-data="editor({{ Js::from($task->description) }})" class="relative flex justify-end max-w-screen-2xl mx-auto bg-white border-x border-gray-100">
+<div x-ref=="editorWindow" x-data="editor({{ Js::from($task->description) }})"
+    class="relative flex justify-end max-w-screen-2xl mx-auto bg-white border-x border-gray-100">
     <section id="editor" class="sticky top-0 w-1/2 h-screen overscroll-contain border-r border-gray-100 pb-24">
         <textarea x-on:input.debounce="updateParsedContent" x-ref="editorArea" x-model="content" wire:model="content"
             spellcheck="false" placeholder="🚀 Start noting, start doing. Your tasks come alive with markdown!"
@@ -43,7 +44,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </button>
-
             <button x-on:click="alert('todo')" aria-label="Show Markdown syntax" title="Show Markdown syntax"
                 class="inline-flex items-center justify-center w-11 h-11 border border-r-0 border-gray-100 bg-white rounded-l-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

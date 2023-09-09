@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,25 +15,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, 
         HasFactory, 
         Notifiable;
-
-    protected static function booted()
-    {
-        static::created(fn (self $user) =>
-            $user->categories()->create([
-                'name' => 'Default',
-                'is_default' => true,
-                'slug' => 'default',
-            ])
-        );
-    }
-
-    /**
-     * User has many categories.
-     */
-    public function categories(): HasMany
-    {
-        return $this->hasMany(Category::class);
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -53,4 +35,28 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected static function booted()
+    {
+        static::created(fn (self $user) =>
+            $user->categories()->create([
+                'name' => 'Default',
+                'is_default' => true,
+                'slug' => 'default',
+            ])
+        );
+    }
+
+    /**
+     * User has many categories.
+     */
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail());
+    }
 }

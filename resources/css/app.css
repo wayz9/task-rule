@@ -6,6 +6,10 @@
     display: none;
 }
 
+.input-error {
+    @apply !border-red-400 !text-red-500 !bg-red-50/25 focus:!outline-red-400;
+}
+
 .shiki .github-light {
     @apply !p-4 !bg-gray-50 !rounded-xl !border !border-gray-100;
 }

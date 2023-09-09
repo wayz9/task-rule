@@ -60,8 +60,6 @@ class EditTask extends Component
             'content' => ['required', 'string'], // Max and Sanitize
         ]);
 
-        dd($this->content);
-
         $this->task->update([
             'description' => $this->content,
         ]);

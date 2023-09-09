@@ -19,6 +19,8 @@ use Illuminate\Validation\Rule;
 |
 */
 
+Route::redirect('/', '/workspace');
+
 Route::get('/workspace/{slug?}', Dashboard::class)
     ->middleware('auth', 'verified')
     ->name('home');
