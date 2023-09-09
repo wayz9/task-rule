@@ -20,7 +20,7 @@ class Register extends Component
     public string $name = '';
     public string $email = '';
     public string $password = '';
-    public string $passwordConfirmation = '';
+    public string $password_confirmation = '';
 
     public function register()
     {
@@ -28,7 +28,7 @@ class Register extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
-            'password_confirmation' => $this->passwordConfirmation,
+            'password_confirmation' => $this->password_confirmation,
         ], [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', Rule::unique('users', 'email')],

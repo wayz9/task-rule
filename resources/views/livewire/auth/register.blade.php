@@ -49,7 +49,7 @@
                 </p>
             @enderror
 
-            <input type="password" placeholder="Confirm Password" wire:model="passwordConfirmation" required
+            <input type="password" placeholder="Confirm Password" wire:model="password_confirmation" required
                 class="mt-4 block w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6" />
 
             <button type="submit" wire:loading.attr="disabled" wire:target="register"

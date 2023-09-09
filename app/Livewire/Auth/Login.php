@@ -59,7 +59,6 @@ class Login extends Component
         }
 
         RateLimiter::clear($this->getThrottleKey());
-        request()->session()->regenerate();
 
         return redirect()->intended();
     }
