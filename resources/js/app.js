@@ -53,6 +53,10 @@ Alpine.data("editor", (content = "") => ({
         this.markedInstance = await resolveMarkedInstance();
         this.updateParsedContent();
 
+        this.$watch("content", (value) => {
+            this.updateParsedContent();
+        });
+
         this.$refs.editorArea.addEventListener("keydown", (event) => {
             if (event.ctrlKey || event.metaKey) {
                 switch (event.key) {
@@ -119,7 +123,6 @@ Alpine.data("editor", (content = "") => ({
                 /\[Image]\(Uploading\.\.\.\)/g,
                 `![Image](${data.url})`
             );
-            this.updateParsedContent();
         });
     },
     insertCodeBlock() {
@@ -141,7 +144,7 @@ Alpine.data("editor", (content = "") => ({
             return;
         }
 
-        if (file.size > 2 * 1024 * 1024) {
+        if (file.size > 6 * 1024 * 1024) {
             toast("File size should be less than 2MB.", { type: "danger" });
             return;
         }
@@ -151,7 +154,14 @@ Alpine.data("editor", (content = "") => ({
         const placeholder = "[Image](Uploading...)";
         this.insertAtCursor(placeholder);
 
-        this.$wire.upload("image", file);
+        this.$wire.upload(
+            "image",
+            file,
+            () => {},
+            (event) => {
+                console.log(event);
+            }
+        );
 
         this.content = this.$refs.editorArea.value;
         this.updateParsedContent();
@@ -230,7 +240,6 @@ Alpine.data("editor", (content = "") => ({
         };
 
         const { prefix, suffix } = formattingOptions[type];
-
         const trimmedText = selection.text.trim();
 
         if (trimmedText.startsWith(prefix) && trimmedText.endsWith(suffix)) {
@@ -263,6 +272,13 @@ Alpine.data("editor", (content = "") => ({
                 selection.start + formattedText.length
             );
         }
+
+        // Defer setting a Livewire property to a specific value
+        this.content = this.$refs.editorArea.value;
+    },
+    updateChanges() {
+        this.$refs.editorArea.dispatchEvent(new Event("input"));
+        this.$wire.call("save");
     },
 }));
 

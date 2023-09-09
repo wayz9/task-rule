@@ -72,7 +72,7 @@
             <div class="flex items-center gap-x-4">
                 <a href="{{ route('tasks.show', $task) }}"
                     class="rounded-lg border border-gray-200 px-4 py-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 focus:outline-offset-2">Cancel</a>
-                <button wire:click="save()" wire:loading.attr="disabled" wire:target="save"
+                <button x-on:click="updateChanges" wire:loading.attr="disabled" wire:target="save"
                     class="rounded-lg bg-gray-900 px-4 py-2 text-sm/6 font-semibold text-gray-50 hover:bg-gray-800 focus:outline-offset-2">
                     Save Changes
                 </button>

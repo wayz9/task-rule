@@ -34,7 +34,7 @@ class EditTask extends Component
         // $property: The name of the current property that was updated
         $validator = validator()->make(
             ['image' => $this->image],
-            ['image' => ['required', 'image', 'max:4069']],
+            ['image' => ['required', 'image', 'max:10000']],
         );
 
         if ($validator->fails()) {
@@ -59,6 +59,8 @@ class EditTask extends Component
         $this->validate([
             'content' => ['required', 'string'], // Max and Sanitize
         ]);
+
+        dd($this->content);
 
         $this->task->update([
             'description' => $this->content,
