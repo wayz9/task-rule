@@ -2,7 +2,8 @@
 
 use App\Livewire\Auth\Login;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
+use Illuminate\Contracts\Session\Session;
+use Mockery\MockInterface;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -16,10 +17,6 @@ test('login screen can be rendered', function() {
 });
 
 test('users can authenticate using the login screen', function() {
-    mock(\Illuminate\Contracts\Session\Session::class, function ($mock) {
-        $mock->shouldReceive('regenerate')->andReturnNull();
-    });
-
     $user = User::factory()->create();
 
     Livewire::test(Login::class)

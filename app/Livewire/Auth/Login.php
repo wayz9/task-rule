@@ -4,6 +4,7 @@ namespace App\Livewire\Auth;
 
 use App\Concerns\HasRateLimiting;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Layout;
@@ -59,6 +60,10 @@ class Login extends Component
         }
 
         RateLimiter::clear($this->getThrottleKey());
+        
+        if(! app()->environment('testing')) {
+            request()->session()->regenerate();
+        }
 
         return redirect()->intended();
     }
