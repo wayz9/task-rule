@@ -1,14 +1,16 @@
 <div x-ref=="editorWindow" x-data="editor({{ Js::from($task->description) }})"
-    class="relative flex justify-end max-w-screen-2xl mx-auto bg-white border-x border-gray-100">
-    <section id="editor" class="sticky top-0 w-1/2 h-screen overscroll-contain border-r border-gray-100 pb-24">
+    class="relative flex justify-end lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto bg-white border-x border-gray-100">
+    <section id="editor"
+        class="sticky top-0 w-full lg:w-1/2 h-screen overscroll-contain border-r border-gray-100 lg:pb-24">
         <textarea x-on:input.debounce="updateParsedContent" x-ref="editorArea" x-model="content" wire:model="content"
             spellcheck="false" placeholder="🚀 Start noting, start doing. Your tasks come alive with markdown!"
-            class="block w-full h-full border-none p-16 focus:outline-none placeholder:text-sm/7 placeholder:text-gray-500 resize-none"></textarea>
+            class="block w-full h-full border-none pt-40 p-6 md:p-12 lg:p-16 focus:outline-none placeholder:text-sm/7 placeholder:text-gray-500 resize-none"></textarea>
 
-        <div id="tool-sidebar" class="absolute -mr-px right-full inset-y-0 flex flex-col items-end gap-y-1.5 pt-16">
+        <div id="tool-sidebar"
+            class="absolute -mr-px right-full inset-y-0 hidden lg:flex flex-col items-end gap-y-1.5 pt-16">
             <div
                 class="mb-8 py-2 px-4 border border-r-0 border-gray-100 bg-white rounded-l-lg text-xs uppercase font-semibold text-gray-600 whitespace-nowrap">
-                Markdown v0.1.0
+                Beta
             </div>
             <button x-on:click="insertCodeBlock" aria-label="Insert code block" title="Insert code block"
                 class="inline-flex items-center justify-center w-11 h-11 border border-r-0 border-gray-100 bg-white rounded-l-lg">
@@ -55,13 +57,70 @@
         </div>
     </section>
 
-    <aside id="preview" class="basis-1/2" wire:ignore>
-        <div class="p-16 pb-32 max-w-none prose prose-gray prose-violet" x-html="parsedContent">
+    <div class="lg:hidden absolute top-0 inset-x-0 divide-y divide-gray-100 bg-white border-b border-gray-200">
+        <div class="py-4 pl-6 pr-4 md:px-12 flex items-center justify-between gap-y-2 gap-x-6">
+            <hgroup>
+                <p class="text-xs text-gray-600">Currently Editing</p>
+                <h2 class="mt-1 text-base font-semibold text-gray-800 line-clamp-1">
+                    {{ $task->title }}
+                </h2>
+            </hgroup>
+            <button x-on:click="updateChanges" wire:loading.attr="disabled" wire:target="save"
+                class="shrink-0 bg-gray-900 px-3.5 py-1.5 text-sm/6 font-semibold text-gray-50 rounded-full  hover:bg-gray-800 focus:outline-offset-2">
+                Save Changes
+            </button>
+        </div>
+        <div
+            class="py-2 px-4 md:px-12 overflow-x-auto flex items-center gap-x-1.5 text-sm/6 font-medium text-gray-800 [&>*]:whitespace-nowrap">
+            <button x-on:click="insertCodeBlock" class="px-3 py-1 border border-gray-100 bg-white rounded-full">
+                Code block
+            </button>
+            <button x-on:click="insertUrlSyntax" class="px-3 py-1 border border-gray-100 bg-white rounded-full">
+                URL
+            </button>
+            <button x-on:click="insertTableSyntax" class="px-3 py-1 border border-gray-100 bg-white rounded-full">
+                Table
+            </button>
+            <button x-on:click="insertTableSyntax"
+                class="flex items-center gap-x-1 px-3 py-1 border border-gray-100 bg-white rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-600" width="20" height="20"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 8h4v4h-4z" />
+                    <path d="M6 4l0 4" />
+                    <path d="M6 12l0 8" />
+                    <path d="M10 14h4v4h-4z" />
+                    <path d="M12 4l0 10" />
+                    <path d="M12 18l0 2" />
+                    <path d="M16 5h4v4h-4z" />
+                    <path d="M18 4l0 1" />
+                    <path d="M18 9l0 11" />
+                </svg>
+                Settings
+            </button>
+            <button x-on:click="insertTableSyntax"
+                class="flex items-center gap-x-1 px-3 py-1 border border-gray-100 bg-white rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-600" width="20" height="20"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                    <path d="M12 16v.01" />
+                    <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
+                </svg>
+                Settings
+            </button>
+        </div>
+    </div>
+
+    <aside id="preview" class="hidden lg:block lg:w-1/2" wire:ignore>
+        <div class="p-16 lg:pb-32 max-w-none prose prose-gray prose-violet" x-html="parsedContent">
         </div>
     </aside>
 
-    <div class="fixed bottom-0 inset-x-0 mx-auto max-w-screen-2xl border-t border-gray-200 bg-white">
-        <div class="py-4 px-16 flex items-center justify-between h-full">
+    <div class="hidden lg:block fixed bottom-0 inset-x-0 mx-auto max-w-screen-2xl border-t border-gray-200 bg-white">
+        <div class="py-4 px-12 lg:px-16 flex items-center justify-between h-full">
             <hgroup>
                 <p class="text-xs text-gray-600">Currently Editing</p>
                 <h2 class="mt-1 text-base font-semibold text-gray-800">

@@ -27,8 +27,24 @@ module.exports = {
                         strong: {
                             fontWeight: theme("fontWeight.medium"),
                         },
-                        pre: false,
-                        code: false,
+                        pre: {
+                            backgroundColor: "transparent",
+                            fontSize: theme("fontSize.sm")[0],
+                            marginTop: 0,
+                            marginBottom: 0,
+                            borderRadius: 0,
+                            padding: 0,
+                            overflowX: "auto",
+                            border: "none",
+                        },
+                        "pre code": {
+                            color: "inherit",
+                            fontSize: "inherit",
+                            fontWeight: "inherit",
+                            backgroundColor: "transparent",
+                            borderRadius: 0,
+                            padding: 0,
+                        },
                         ul: {
                             listStyleType: "disc",
                         },
