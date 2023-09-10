@@ -294,6 +294,27 @@ Alpine.data("markdown", (content = "") => ({
     },
 }));
 
+Alpine.data("tabs", (data) => ({
+    tabs: data,
+    init() {
+        const tabs = this.$refs.tabs;
+        const leftShadow = this.$refs.leftShadow;
+        const rightShadow = this.$refs.rightShadow;
+
+        function updateShadows() {
+            const scrollLeft = tabs.scrollLeft;
+            const maxScrollLeft = tabs.scrollWidth - tabs.clientWidth;
+
+            leftShadow.style.opacity = scrollLeft > 0 ? 1 : 0;
+            rightShadow.style.opacity = scrollLeft < maxScrollLeft ? 1 : 0;
+        }
+
+        updateShadows();
+
+        this.$refs.tabs.addEventListener("scroll", updateShadows);
+    },
+}));
+
 window.toast = function (message, options = {}) {
     let description = "";
     let type = "default";

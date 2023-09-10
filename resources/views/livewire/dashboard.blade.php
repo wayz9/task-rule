@@ -6,30 +6,30 @@
     </hgroup>
 
     <div class="relative">
-        <div id="tabs" class="relative bg-white">
-            <div class="overflow-x-auto scrollbar-none mr-[5.375rem] md:mr-[10rem]">
-                <div class="border-y border-gray-100 border-b-gray-200">
-                    <ul class="-mb-px md:ml-8 flex whitespace-nowrap">
-                        @foreach ($this->categories as $tab)
-                            <li>
-                                <a wire:navigate.hover href="{{ route('home', $tab->slug) }}"
-                                    @class([
-                                        'block py-3.5 px-6 text-sm/6 border-b transition-colors',
-                                        'text-gray-900 font-semibold border-gray-800' => $tab->is(
-                                            $this->currentCategory),
-                                        'text-gray-500 hover:text-gray-800 font-medium border-transparent hover:border-gray-600' => $tab->isNot(
-                                            $this->currentCategory),
-                                    ])>
-                                    {{ $tab->name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+        <div x-data="tabs({{ Js::from($this->categories) }})" class="relative bg-white overflow-hidden border-y border-gray-100 border-b-gray-200">
+            <div x-ref="tabs" class="overflow-x-auto scrollbar-none mr-[5.375rem] md:mr-[10rem]">
+                <ul class="md:ml-6 flex whitespace-nowrap">
+                    <template x-for="(tab, index) in tabs">
+                        <li :key="index">
+                            <a wire:navigate.hover :href="tab.route" x-text="tab.name"
+                                class="block py-3.5 px-6 text-sm/6 border-b transition-colors"
+                                :class="tab.active ?
+                                    'text-gray-900 font-semibold border-gray-800' :
+                                    'text-gray-500 hover:text-gray-800 font-medium border-transparent hover:border-gray-600'">
+                            </a>
+                        </li>
+                    </template>
+                </ul>
             </div>
 
-            <div
-                class="absolute right-0 pl-6 pr-2.5 md:pr-7 inset-y-0 bg-white border-y border-gray-100 border-b-gray-200">
+            <div x-ref="leftShadow"
+                class="absolute left-0 inset-y-0 w-4 bg-gray-400 blur-2xl pointer-events-none transition-opacity duration-500">
+            </div>
+            <div x-ref="rightShadow"
+                class="absolute right-0 inset-y-0 w-4 bg-gray-400 blur-2xl mr-[5.375rem] md:mr-[10rem] pointer-events-none transition-opacity duration-500">
+            </div>
+
+            <div class="absolute right-0 pl-6 pr-2.5 md:pr-7 border-l border-gray-200 inset-y-0 bg-white">
                 <button class="hidden h-full md:flex items-center gap-x-1 border-b border-transparent">
                     <span class="text-sm/6 font-medium">Accessibility</span>
                     <span class="inline-flex text-gray-400">
@@ -122,4 +122,20 @@
     </div>
 
     <x-ribbon />
+
+    <script>
+        function setupScrollListener() {
+            function updateShadows() {
+                const scrollLeft = this.$refs.tabs.scrollLeft;
+                const maxScrollLeft = this.$refs.tabs.scrollWidth - this.$refs.tabs.clientWidth;
+
+                this.$refs.leftShadow.style.display = scrollLeft > 0 ? 'block' : 'none';
+                this.$refs.rightShadow.style.display = scrollLeft < maxScrollLeft ? 'block' : 'none';
+            }
+
+            updateShadows();
+
+            this.$refs.tabs.addEventListener('scroll', updateShadows);
+        }
+    </script>
 </div>

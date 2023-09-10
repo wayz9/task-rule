@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Task;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -36,7 +36,13 @@ class Dashboard extends Component
     {
         return Category::query()
             ->whereBelongsTo(auth()->user())
-            ->get();
+            ->get()
+            ->map(fn (Category $category) => [
+                'slug' => $category->getKey(),
+                'name' => $category->name,
+                'route' => route('home', $category->slug),
+                'active' => $category->is($this->currentCategory),
+            ]);
     }
 
     public function add(): void
