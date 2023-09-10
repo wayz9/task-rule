@@ -42,7 +42,7 @@
     </div>
 
     <div class="absolute top-0 inset-y-0 right-0 border-l border-gray-100 w-[21.25rem] hidden lg:block">
-        <div class="sticky top-0 pt-16">
+        <div class="pt-16">
             <h4 class="px-7 text-base/7 font-semibold">Summary</h4>
             <hgroup class="mt-6 px-7">
                 <div class="text-sm/6 font-medium">
@@ -319,9 +319,9 @@
                     Links
                 </div>
                 <ul class="mt-2.5 flex flex-col gap-y-2.5">
-                    @foreach (['github.com/wayz9', 'google.com/q?search+terms', 'task-rule.test/task/very-long-url-repeated-forever'] as $item)
+                    @forelse ($urls as $link)
                         <li>
-                            <a href="#"
+                            <a href="{{ $link }}" target="_blank"
                                 class="group flex items-center gap-x-2 text-sm/6 font-medium text-gray-800 transition-colors focus:outline-none">
                                 <span class="inline-flex text-gray-400 group-hover:text-violet-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -332,10 +332,14 @@
                                             d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 105.656 5.656l3-3a4 4 0 00-.225-5.865z" />
                                     </svg>
                                 </span>
-                                <span class="line-clamp-1">{{ $item }}</span>
+                                <span class="line-clamp-1">{{ str($link)->replace('https://', '') }}</span>
                             </a>
                         </li>
-                    @endforeach
+                    @empty
+                        <li>
+                            <p class="text-sm/6 text-gray-500 italic">No links found.</p>
+                        </li>
+                    @endforelse
                 </ul>
             </div>
         </div>

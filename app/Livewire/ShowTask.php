@@ -7,10 +7,12 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Str;
 
 class ShowTask extends Component
 {
     public Task $task;
+    public array $links = [];
 
     public function boot()
     {
@@ -29,6 +31,12 @@ class ShowTask extends Component
     #[Layout('components.layouts.app')]
     public function render(): View
     {
-        return view('livewire.show-task');
+        $urls = Str::of($this->task->description)
+            ->matchAll('/\((https?:\/\/[^\s()]+)\)/')
+            ->toArray();
+
+        return view('livewire.show-task', [
+            'urls' => $urls,
+        ]);
     }
 }
