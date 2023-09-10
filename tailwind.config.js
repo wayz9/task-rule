@@ -37,6 +37,9 @@ module.exports = {
                             overflowX: "auto",
                             border: "none",
                         },
+                        p: {
+                            overflowWrap: "break-word",
+                        },
                         "pre code": {
                             color: "inherit",
                             fontSize: "inherit",

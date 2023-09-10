@@ -204,7 +204,9 @@ Alpine.data("editor", (content = "") => ({
         this.$refs.editorArea.focus();
     },
     updateParsedContent() {
-        this.parsedContent = this.markedInstance.parse(this.content);
+        this.markedInstance.parse(this.content).then((html) => {
+            this.parsedContent = DOMPurify.sanitize(html);
+        });
     },
     getSelection() {
         const editorArea = this.$refs.editorArea;
