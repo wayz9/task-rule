@@ -388,7 +388,7 @@
                 <template x-if="toast.html">
                     <div x-html="toast.html"></div>
                 </template>
-                <span @click="burnToast(toast.id)"
+                <span x-on:click="burnToast(toast.id)"
                     class="absolute right-0 mr-2.5 cursor-pointer rounded-full p-1.5 text-gray-400 opacity-0 duration-100 ease-in-out hover:bg-gray-50 hover:text-gray-500"
                     :class="{
                         'top-1/2 -translate-y-1/2': !toast.description && !toast.html,

@@ -292,6 +292,12 @@ Alpine.data("markdown", (content = "") => ({
     isLoading: true,
     async init() {
         const markedInstance = await resolveMarkedInstance();
+
+        if (!this.content) {
+            this.content =
+                "This task has no description, enhance it with Markdown ✨";
+        }
+
         markedInstance.parse(this.content).then((html) => {
             this.parsedContent = DOMPurify.sanitize(html);
             this.isLoading = false;
@@ -314,9 +320,18 @@ Alpine.data("tabs", (data) => ({
             rightShadow.style.opacity = scrollLeft < maxScrollLeft ? 1 : 0;
         }
 
-        updateShadows();
-
         this.$refs.tabs.addEventListener("scroll", updateShadows);
+        Livewire.hook("commit", ({ succeed }) => {
+            succeed(({ snapshot, effect }) => {
+                this.$nextTick(() => {
+                    updateShadows();
+                });
+            });
+        });
+
+        this.$nextTick(() => {
+            updateShadows();
+        });
     },
 }));
 
@@ -359,11 +374,14 @@ Alpine.data("contextMenu", () => ({
     },
     calculateContextMenuPosition(clickEvent) {
         if (
-            window.innerHeight <
+            window.innerHeight - 80 <
             clickEvent.clientY + this.$refs.contextmenu.offsetHeight
         ) {
             this.$refs.contextmenu.style.top =
-                window.innerHeight - this.$refs.contextmenu.offsetHeight + "px";
+                window.innerHeight -
+                80 -
+                this.$refs.contextmenu.offsetHeight +
+                "px";
         } else {
             this.$refs.contextmenu.style.top = clickEvent.clientY + "px";
         }
@@ -415,8 +433,17 @@ Alpine.data("contextMenu", () => ({
                 document.body.classList.remove("overflow-hidden");
             }
         });
+
         window.addEventListener("resize", function (event) {
             contextMenuOpen = false;
+        });
+
+        Livewire.hook("commit", ({ succeed }) => {
+            succeed(({ snapshot, effect }) => {
+                this.$nextTick(() => {
+                    if (this.contextMenuToggle) this.contextMenuOpen = false;
+                });
+            });
         });
     },
 }));

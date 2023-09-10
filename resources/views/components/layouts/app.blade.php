@@ -13,7 +13,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased text-gray-800 md:bg-gray-50 min-h-full flex flex-col">
+<body
+    class="font-sans antialiased text-gray-800 md:bg-gray-50 min-h-full flex flex-col md:bg-pattern bg-center bg-fixed bg-no-repeat">
+    @include('reusables.toast')
+
     <div class="relative flex flex-1 flex-col md:pt-5">
         <header>
             <nav

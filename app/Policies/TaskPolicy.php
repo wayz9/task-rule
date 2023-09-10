@@ -37,6 +37,6 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        //
+        return $user->getKey() === $task->user_id;
     }
 }

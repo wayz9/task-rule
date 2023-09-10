@@ -18,6 +18,16 @@ enum Priority: int
         };
     }
 
+    public function getBackgroundColor(): string
+    {
+        return match ($this) {
+            self::Important => 'bg-violet-500',
+            self::Moderate => 'bg-yellow-500',
+            self::Trivial => 'bg-gray-600',
+            default => '',
+        };
+    }
+
     public function getRealName(): string
     {
         return match ($this) {

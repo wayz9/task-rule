@@ -6,16 +6,17 @@
     </hgroup>
 
     <div class="relative">
-        <div x-data="tabs({{ Js::from($this->categories) }})" class="relative bg-white overflow-hidden border-y border-gray-100 border-b-gray-200">
+        <div x-data="tabs({{ Js::from($this->categories) }})"
+            class="block relative bg-white overflow-hidden border-y border-gray-100 border-b-gray-200">
             <div x-ref="tabs" class="overflow-x-auto scrollbar-none mr-[5.375rem] md:mr-[10rem]">
                 <ul class="md:ml-6 flex whitespace-nowrap">
                     <template x-for="(tab, index) in tabs">
                         <li :key="index">
                             <a wire:navigate.hover :href="tab.route" x-text="tab.name"
-                                class="block py-3.5 px-6 text-sm/6 border-b transition-colors"
+                                class="block py-3.5 px-6 text-sm/6 transition-colors"
                                 :class="tab.active ?
-                                    'text-gray-900 font-semibold border-gray-800' :
-                                    'text-gray-500 hover:text-gray-800 font-medium border-transparent hover:border-gray-600'">
+                                    'text-gray-950 font-semibold bg-gray-100' :
+                                    'text-gray-500 hover:text-gray-800 font-medium hover:bg-gray-50'">
                             </a>
                         </li>
                     </template>
@@ -23,13 +24,13 @@
             </div>
 
             <div x-ref="leftShadow"
-                class="absolute left-0 inset-y-0 w-4 bg-gray-400 blur-2xl pointer-events-none transition-opacity duration-500">
+                class="absolute left-0 inset-y-0 w-4 bg-gray-400 blur-2xl pointer-events-none opacity-0 transition-opacity duration-500">
             </div>
             <div x-ref="rightShadow"
-                class="absolute right-0 inset-y-0 w-4 bg-gray-400 blur-2xl mr-[5.375rem] md:mr-[10rem] pointer-events-none transition-opacity duration-500">
+                class="absolute right-0 inset-y-0 w-4 bg-gray-400 blur-2xl mr-[5.375rem] md:mr-[10rem] opacity-0 pointer-events-none transition-opacity duration-500">
             </div>
 
-            <div class="absolute right-0 pl-6 pr-2.5 md:pr-7 border-l border-gray-200 inset-y-0 bg-white">
+            <div class="absolute right-0 pl-6 pr-2.5 md:pr-7 border-l border-gray-900/5 inset-y-0 bg-white">
                 <button class="hidden h-full md:flex items-center gap-x-1 border-b border-transparent">
                     <span class="text-sm/6 font-medium">Accessibility</span>
                     <span class="inline-flex text-gray-400">
@@ -68,14 +69,53 @@
                             </div>
                         @endif
                     </div>
-                    <div class="text-sm/6 text-gray-600 text-right">{{ now()->format('d-M-y') }}</div>
-                    @teleport('body')
-                        <div x-show="contextMenuOpen" @click.away="contextMenuOpen=false" x-ref="contextmenu"
-                            class="z-40 min-w-[8rem] text-neutral-800 rounded-md border border-neutral-200/70 bg-white text-sm fixed p-1 shadow-md w-64"
+                    <div class="text-sm/6 text-gray-600 text-right">{{ $task->created_at->format('d-M-y') }}</div>
+                    <template x-teleport="body">
+                        <div x-show="contextMenuOpen" x-on:click.away="contextMenuOpen=false" x-ref="contextmenu"
+                            class="z-40 min-w-[8rem] text-gray-800 rounded-md border py-2 border-gray-200/70 bg-white text-sm/6 font-medium fixed shadow-md w-64"
                             x-cloak>
-
+                            <div x-on:click="contextMenuOpen=false"
+                                class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                <span>View</span>
+                            </div>
+                            <div x-on:click="contextMenuOpen=false"
+                                class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                <span>Copy URL</span>
+                            </div>
+                            <div class="relative group">
+                                <div
+                                    class="flex cursor-default select-none items-center rounded px-2 hover:bg-neutral-100 py-1.5 outline-none pl-8">
+                                    <span>Set Priority</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-auto">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                                <div data-submenu
+                                    class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
+                                    <div
+                                        class="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white p-1 shadow-md animate-in slide-in-from-left-1 w-48">
+                                        @foreach (Priority::cases() as $priority)
+                                            <div x-on:click="contextMenuOpen=false"
+                                                class="relative flex items-center gap-x-1.5 cursor-default select-none rounded px-3 py-1.5 hover:bg-neutral-100 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                                <div class="w-2 h-2 rounded-full {{ $priority->getBackgroundColor() }}">
+                                                </div>
+                                                <span>
+                                                    {{ $priority->getRealName() }}
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="h-px my-1 -mx-1 bg-gray-200"></div>
+                            <div wire:click="delete('{{ $task->id }}')"
+                                class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                <span>Delete</span>
+                            </div>
                         </div>
-                    @endteleport
+                    </template>
                 </li>
             @endforeach
         </ul>
@@ -122,20 +162,4 @@
     </div>
 
     <x-ribbon />
-
-    <script>
-        function setupScrollListener() {
-            function updateShadows() {
-                const scrollLeft = this.$refs.tabs.scrollLeft;
-                const maxScrollLeft = this.$refs.tabs.scrollWidth - this.$refs.tabs.clientWidth;
-
-                this.$refs.leftShadow.style.display = scrollLeft > 0 ? 'block' : 'none';
-                this.$refs.rightShadow.style.display = scrollLeft < maxScrollLeft ? 'block' : 'none';
-            }
-
-            updateShadows();
-
-            this.$refs.tabs.addEventListener('scroll', updateShadows);
-        }
-    </script>
 </div>

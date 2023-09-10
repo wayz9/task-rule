@@ -15,6 +15,9 @@ module.exports = {
         "text-yellow-700",
         "bg-gray-100",
         "text-gray-700",
+        "bg-gray-600",
+        "bg-violet-500",
+        "bg-yellow-500",
     ],
     theme: {
         extend: {
@@ -91,6 +94,9 @@ module.exports = {
                     },
                     ...defaultTheme.fontFamily.sans,
                 ],
+            },
+            backgroundImage: {
+                pattern: "url('/resources/images/bg.png')",
             },
             colors: {
                 primary: colors.violet,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Priority;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
@@ -183,7 +184,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'Markdown' => Markdown::class,
+        'Priority' => Priority::class,
     ])->toArray(),
 
 ];

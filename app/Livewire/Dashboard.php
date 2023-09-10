@@ -31,6 +31,18 @@ class Dashboard extends Component
             ->firstOrFail();
     }
 
+    public function delete(Task $task)
+    {
+        $this->authorize('delete', $task);
+
+        $task->delete();
+        $this->js(<<<JS
+            toast("Task deleted successfully!", {
+                type: 'success',
+            });
+        JS);
+    }
+
     #[Computed]
     public function categories(): Collection
     {

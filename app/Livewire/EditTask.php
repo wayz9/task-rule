@@ -7,7 +7,6 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Str;
 
 class EditTask extends Component
 {
@@ -53,7 +52,7 @@ class EditTask extends Component
         $this->dispatch('image-uploaded', url: asset("storage/{$path}"));
     }
 
-    public function save(): void
+    public function save()
     {
         $this->validate([
             'content' => ['required', 'string'], // Max and Sanitize
@@ -63,7 +62,8 @@ class EditTask extends Component
             'description' => $this->content,
         ]);
 
-        $this->redirectRoute('tasks.show', $this->task);
+        return to_route('tasks.show', $this->task)
+            ->with('saved', 'Task updated successfully!');
     }
 
     #[Layout('components.layouts.editor')]
