@@ -6,6 +6,7 @@ import.meta.glob(["../images/**"]);
 import { Marked } from "marked";
 import { getHighlighter } from "shikiji";
 import { markedHighlight } from "marked-highlight";
+import DOMPurify from "dompurify";
 
 let shiki;
 const supportedLanguages = ["javascript", "html", "php", "json", "bash"];
@@ -289,8 +290,10 @@ Alpine.data("markdown", (content = "") => ({
     isLoading: true,
     async init() {
         const markedInstance = await resolveMarkedInstance();
-        this.parsedContent = markedInstance.parse(this.content);
-        this.isLoading = false;
+        markedInstance.parse(this.content).then((html) => {
+            this.parsedContent = DOMPurify.sanitize(html);
+            this.isLoading = false;
+        });
     },
 }));
 
