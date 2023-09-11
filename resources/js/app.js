@@ -4,7 +4,6 @@ import {
 } from "../../vendor/livewire/livewire/dist/livewire.esm";
 import.meta.glob(["../images/**"]);
 import contextMenu from "./components/context-menu";
-import taskList from "./components/task-list";
 import tabs from "./components/tabs";
 import markdownRenderer from "./components/markdownRenderer";
 import editor from "./components/editor";
@@ -37,6 +36,5 @@ Alpine.data("tabs", tabs);
 Alpine.data("editor", editor);
 Alpine.data("markdown", markdownRenderer);
 Alpine.data("contextMenu", contextMenu);
-Alpine.data("taskList", taskList);
 
 Livewire.start();

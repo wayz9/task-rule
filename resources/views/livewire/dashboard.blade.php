@@ -52,38 +52,38 @@
             </div>
         </div>
 
-        <ul x-data="taskList({{ Js::from($tasks) }})" id="tasks"
-            class="divide-y divide-gray-100 [&>*]:px-8 [&>*]:h-14 overflow-x-auto mb-[4.5rem] grid">
-            <template x-for="(task, index) in tasks">
-                <li x-data="contextMenu" x-on:contextmenu="contextMenuToggle(event)"
-                    x-on:contextmenu.away="contextMenuOpen=false" :key="task.id"
+        <ul id="tasks" class="divide-y divide-gray-100 [&>*]:px-8 [&>*]:h-14 overflow-x-auto mb-[4.5rem] grid">
+            @foreach ($tasks as $index => $task)
+                <li x-data="contextMenu" x-on:contextmenu="contextMenuToggle(event)" draggable
+                    x-on:contextmenu.away="contextMenuOpen=false" :key="$index"
                     class="relative z-10 flex items-center justify-between whitespace-nowrap gap-x-8">
                     <div class="flex items-center gap-x-2">
-                        <a :href="task.view_route" class="text-sm/6 font-medium">
-                            &nbsp;<span x-text="task.index" class="tabular-nums"></span>.
-                            <span x-text="task.title"></span>
+                        <a href="{{ route('tasks.show', $task) }}" class="text-sm/6 font-medium">
+                            &nbsp;<span class="tabular-nums">{{ $task->index }}</span>.
+                            {{ $task->title }}
                         </a>
-                        <template x-if="task.priority">
-                            <div x-text="task.priority.name"
-                                class="text-[13px]/[22px] font-medium py-0.5 px-3 rounded-full first-letter:uppercase"
-                                :class="task.priority.class">
+                        @if ($task->priority)
+                            <div
+                                class="text-[13px]/[22px] font-medium py-0.5 px-3 rounded-full first-letter:uppercase {{ $task->priority->getPillClasses() }}">
+                                {{ $task->priority->getRealName() }}
                             </div>
-                        </template>
+                        @endif
                     </div>
 
-                    <div x-text="task.created_at" class="text-sm/6 text-gray-600 text-right"></div>
+                    <div class="text-sm/6 text-gray-600 text-right">{{ $task->created_at->format('d-M-y') }}</div>
 
-                    <div class="absolute" wire:ignore :id="'context' + task.id">
+                    <div class="absolute" wire:ignore id="{{ $task->getKey() }}">
                         <template x-teleport="body">
                             <div x-show="contextMenuOpen" x-on:click.away="contextMenuOpen=false" x-ref="contextmenu"
                                 class="z-40 min-w-[8rem] text-gray-800 rounded-md border py-2 border-gray-200/70 bg-white text-sm/6 font-medium fixed shadow-md w-64"
                                 x-cloak>
-                                <a :href="task.view_route" target="_blank" x-on:click="contextMenuOpen=false"
+                                <a href="{{ route('tasks.show', $task) }}" target="_blank"
+                                    x-on:click="contextMenuOpen=false"
                                     class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
                                     <span>View <span class="text-gray-500 text-xs">(New Tab)</span></span>
                                 </a>
                                 <div x-on:click="
-                                    navigator.clipboard.writeText(task.view_route); 
+                                    navigator.clipboard.writeText({{ Js::from(route('tasks.show', $task)) }}); 
                                     contextMenuOpen=false; 
                                     toast('URL copied successfully.', {type: 'success'})
                                 "
@@ -102,14 +102,13 @@
                                     </div>
                                     <div data-submenu
                                         class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
-                                        <div x-data="{ priority: task.priority?.value }"
+                                        <div x-data="{ priority: {{ Js::from($task->priority) }} }"
                                             class="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white py-2 shadow-md animate-in slide-in-from-left-1 w-48">
                                             @foreach (Priority::cases() as $priority)
-                                                <div x-on:click="
-                                                    $wire.changePriority(task.id, {{ Js::from($priority->value) }}); 
-                                                    priority = {{ Js::from($priority->value) }}; 
-                                                    contextMenuOpen=false
-                                                "
+                                                <div x-on:click="$wire.changePriority(
+                                                    {{ Js::from($task->getKey()) }},
+                                                    {{ Js::from($priority->value) }}
+                                                ); priority = {{ Js::from($priority->value) }}; contextMenuOpen=false"
                                                     class="relative cursor-default select-none rounded pl-9 px-3 py-1.5 hover:bg-neutral-100 text-sm/6 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                                     <div x-show="priority == '{{ $priority->value }}'"
                                                         class="absolute top-1/2 -translate-y-1/2 left-5">
@@ -123,7 +122,10 @@
                                                 </div>
                                             @endforeach
                                             <div class="h-px w-full bg-gray-200 my-1"></div>
-                                            <div x-on:click="$wire.changePriority(task.id, null); priority = null; contextMenuOpen=false"
+                                            <div x-on:click="$wire.changePriority(
+                                                    {{ Js::from($task->getKey()) }},
+                                                    null
+                                                ); priority = null; contextMenuOpen=false"
                                                 class="relative cursor-default select-none rounded pl-9 px-3 py-1.5 hover:bg-neutral-100 text-sm/6 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                                 <span>
                                                     None
@@ -133,7 +135,7 @@
                                     </div>
                                 </div>
                                 <div class="h-px my-1 -mx-1 bg-gray-200"></div>
-                                <div wire:click="deleteTask(index); contextMenuOpen=false"
+                                <div wire:click="delete('{{ $task->id }}')"
                                     class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
                                     <span>Delete</span>
                                 </div>
@@ -141,7 +143,7 @@
                         </template>
                     </div>
 
-                    <div x-show="reorderEnabled" class="absolute left-0 inset-y-0">
+                    <div class="absolute left-0 inset-y-0">
                         <button
                             class="h-full flex items-center justify-center px-1.5 hover:bg-gray-50 hover:cursor-move">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grip-vertical"
@@ -158,7 +160,7 @@
                         </button>
                     </div>
                 </li>
-            </template>
+            @endforeach
         </ul>
     </div>
 

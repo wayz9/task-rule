@@ -8,10 +8,11 @@ use App\Models\Category;
 use App\Models\Task;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -33,7 +34,6 @@ class Dashboard extends Component
             ->firstOrFail();
     }
 
-    #[Renderless]
     public function delete(Task $task)
     {
         $this->authorize('delete', $task);
@@ -45,6 +45,11 @@ class Dashboard extends Component
                 type: 'success',
             });
         JS);
+    }
+
+    public function rearrange(Task $task, int $newPos)
+    {
+        # todo...
     }
 
     public function changePriority(Task $task, ?string $priority): void
@@ -103,21 +108,7 @@ class Dashboard extends Component
             ->whereBelongsTo(auth()->user())
             ->whereBelongsTo($this->currentCategory)
             ->orderBy('index')
-            ->get()
-            ->map(fn (Task $task) => [
-                'id' => $task->getKey(),
-                'title' => $task->title,
-                'description' => $task->description,
-                'priority' => (bool) $task->priority ? [
-                    'value' => $task->priority->value,
-                    'name' => $task->priority->getRealName(),
-                    'class' => $task->priority->getPillClasses(),
-                    'bg_color' => $task->priority->getBackgroundColor(),
-                ] : null,
-                'index' => $task->index,
-                'created_at' => $task->created_at->format('d-M-y'),
-                'view_route' => route('tasks.show', $task),
-            ]);
+            ->get();
 
         return view('livewire.dashboard', [
             'tasks' => $tasks,
