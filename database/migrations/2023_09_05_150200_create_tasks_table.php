@@ -25,6 +25,9 @@ return new class extends Migration
             $table->tinyInteger('priority')
                 ->unsigned()
                 ->nullable();
+            $table->integer('index')
+                ->nullable()
+                ->unsigned();
             $table->string('title')->index();
             $table->text('description')->nullable();
             $table->string('status')->default(Status::Pending->value);

@@ -36,6 +36,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    protected static function booted() 
+    {
+        static::created(fn (self $user) => 
+            $user->categories()->create([
+                'name' => 'Default',
+                'is_default' => true,
+                'slug' => 'default',
+            ])
+        );
+    }
+
     /**
      * User has many categories.
      */

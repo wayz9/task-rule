@@ -46,6 +46,7 @@ class ShowTask extends Component
     {
         $urls = Str::of($this->task->description)
             ->matchAll('/\((https?:\/\/[^\s()]+)\)/')
+            ->unique()
             ->toArray();
 
         return view('livewire.show-task', [

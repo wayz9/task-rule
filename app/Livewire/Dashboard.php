@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -32,6 +33,7 @@ class Dashboard extends Component
             ->firstOrFail();
     }
 
+    #[Renderless]
     public function delete(Task $task)
     {
         $this->authorize('delete', $task);
@@ -100,7 +102,22 @@ class Dashboard extends Component
         $tasks = Task::query()
             ->whereBelongsTo(auth()->user())
             ->whereBelongsTo($this->currentCategory)
-            ->get();
+            ->orderBy('index')
+            ->get()
+            ->map(fn (Task $task) => [
+                'id' => $task->getKey(),
+                'title' => $task->title,
+                'description' => $task->description,
+                'priority' => (bool) $task->priority ? [
+                    'value' => $task->priority->value,
+                    'name' => $task->priority->getRealName(),
+                    'class' => $task->priority->getPillClasses(),
+                    'bg_color' => $task->priority->getBackgroundColor(),
+                ] : null,
+                'index' => $task->index,
+                'created_at' => $task->created_at->format('d-M-y'),
+                'view_route' => route('tasks.show', $task),
+            ]);
 
         return view('livewire.dashboard', [
             'tasks' => $tasks,
