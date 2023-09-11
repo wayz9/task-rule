@@ -55,7 +55,7 @@
         <ul id="tasks" class="divide-y divide-gray-100 [&>*]:px-8 [&>*]:h-14 overflow-x-auto mb-[4.5rem] grid">
             @foreach ($tasks as $index => $task)
                 <li x-data="contextMenu" x-on:contextmenu="contextMenuToggle(event)"
-                    x-on:contextmenu.away="contextMenuOpen=false"
+                    x-on:contextmenu.away="contextMenuOpen=false" :key="$index"
                     class="relative z-10 flex items-center justify-between whitespace-nowrap gap-x-8">
                     <div class="flex items-center gap-x-2">
                         <a wire:navigate.hover href="{{ route('tasks.show', $task) }}" class="text-sm/6 font-medium">
@@ -70,52 +70,72 @@
                         @endif
                     </div>
                     <div class="text-sm/6 text-gray-600 text-right">{{ $task->created_at->format('d-M-y') }}</div>
-                    <template x-teleport="body">
-                        <div x-show="contextMenuOpen" x-on:click.away="contextMenuOpen=false" x-ref="contextmenu"
-                            class="z-40 min-w-[8rem] text-gray-800 rounded-md border py-2 border-gray-200/70 bg-white text-sm/6 font-medium fixed shadow-md w-64"
-                            x-cloak>
-                            <div x-on:click="contextMenuOpen=false"
-                                class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
-                                <span>View</span>
-                            </div>
-                            <div x-on:click="contextMenuOpen=false"
-                                class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
-                                <span>Copy URL</span>
-                            </div>
-                            <div class="relative group">
-                                <div
-                                    class="flex cursor-default select-none items-center rounded px-2 hover:bg-neutral-100 py-1.5 outline-none pl-8">
-                                    <span>Set Priority</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-auto">
-                                        <polyline points="9 18 15 12 9 6"></polyline>
-                                    </svg>
+                    <div class="absolute" wire:ignore id="{{ $task->getKey() }}">
+                        <template x-teleport="body">
+                            <div x-show="contextMenuOpen" x-on:click.away="contextMenuOpen=false" x-ref="contextmenu"
+                                class="z-40 min-w-[8rem] text-gray-800 rounded-md border py-2 border-gray-200/70 bg-white text-sm/6 font-medium fixed shadow-md w-64"
+                                x-cloak>
+                                <a href="{{ route('tasks.show', $task) }}" target="_blank"
+                                    x-on:click="contextMenuOpen=false"
+                                    class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                    <span>View <span class="text-gray-500 text-xs">(New Tab)</span></span>
+                                </a>
+                                <div x-on:click="contextMenuOpen=false"
+                                    class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                    <span>Copy URL</span>
                                 </div>
-                                <div data-submenu
-                                    class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
+                                <div class="relative group">
                                     <div
-                                        class="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white p-1 shadow-md animate-in slide-in-from-left-1 w-48">
-                                        @foreach (Priority::cases() as $priority)
-                                            <div x-on:click="contextMenuOpen=false"
-                                                class="relative flex items-center gap-x-1.5 cursor-default select-none rounded px-3 py-1.5 hover:bg-neutral-100 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                                                <div class="w-2 h-2 rounded-full {{ $priority->getBackgroundColor() }}">
+                                        class="flex cursor-default select-none items-center rounded px-2 hover:bg-neutral-100 py-1.5 outline-none pl-8">
+                                        <span>Set Priority</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-auto">
+                                            <polyline points="9 18 15 12 9 6"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div data-submenu
+                                        class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
+                                        <div x-data="{ priority: {{ Js::from($task->priority) }} }"
+                                            class="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white py-2 shadow-md animate-in slide-in-from-left-1 w-48">
+                                            @foreach (Priority::cases() as $priority)
+                                                <div x-on:click="$wire.changePriority(
+                                                    {{ Js::from($task->getKey()) }},
+                                                    {{ Js::from($priority->value) }}
+                                                ); priority = {{ Js::from($priority->value) }}; contextMenuOpen=false"
+                                                    class="relative cursor-default select-none rounded pl-9 px-3 py-1.5 hover:bg-neutral-100 text-sm/6 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                                    <div x-show="priority == '{{ $priority->value }}'"
+                                                        class="absolute top-1/2 -translate-y-1/2 left-5">
+                                                        <div
+                                                            class="w-2 h-2 rounded-full {{ $priority->getBackgroundColor() }}">
+                                                        </div>
+                                                    </div>
+                                                    <span>
+                                                        {{ $priority->getRealName() }}
+                                                    </span>
                                                 </div>
+                                            @endforeach
+                                            <div class="h-px w-full bg-gray-200 my-1"></div>
+                                            <div x-on:click="$wire.changePriority(
+                                                    {{ Js::from($task->getKey()) }},
+                                                    null
+                                                ); priority = null; contextMenuOpen=false"
+                                                class="relative cursor-default select-none rounded pl-9 px-3 py-1.5 hover:bg-neutral-100 text-sm/6 outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                                                 <span>
-                                                    {{ $priority->getRealName() }}
+                                                    None
                                                 </span>
                                             </div>
-                                        @endforeach
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="h-px my-1 -mx-1 bg-gray-200"></div>
+                                <div wire:click="delete('{{ $task->id }}')"
+                                    class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                    <span>Delete</span>
+                                </div>
                             </div>
-                            <div class="h-px my-1 -mx-1 bg-gray-200"></div>
-                            <div wire:click="delete('{{ $task->id }}')"
-                                class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
-                                <span>Delete</span>
-                            </div>
-                        </div>
-                    </template>
+                        </template>
+                    </div>
                 </li>
             @endforeach
         </ul>
@@ -147,7 +167,8 @@
                 wire:loading.attr="disabled"
                 class="block w-full h-full bg-white px-8 pl-[62px] text-sm/6 placeholder:text-gray-500 placeholder:font-normal text-gray-900 font-medium focus:outline-none focus:ring-1 focus:ring-gray-300 rounded-lg disabled:bg-gray-50 disabled:cursor-not-allowed">
             <div class="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 -mb-px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="w-5 h-5 -mb-px">
                     <path
                         d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                 </svg>

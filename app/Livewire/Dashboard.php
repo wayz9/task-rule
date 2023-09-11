@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\Priority;
 use App\Livewire\Forms\TaskForm;
 use App\Models\Category;
 use App\Models\Task;
@@ -36,11 +37,33 @@ class Dashboard extends Component
         $this->authorize('delete', $task);
 
         $task->delete();
+
         $this->js(<<<JS
             toast("Task deleted successfully!", {
                 type: 'success',
             });
         JS);
+    }
+
+    public function changePriority(Task $task, ?string $priority): void
+    {
+        $priority = Priority::tryFrom($priority);
+
+        if (! $priority) {
+            $task->update(['priority' => null]);
+            return;
+        }
+
+        if ($task->priority == $priority) {
+            $this->js(<<<JS
+                toast("Priority already set!", {
+                    type: 'warning',
+                });
+            JS);
+        }
+
+        $this->authorize('update', $task);
+        $task->update(['priority' => $priority]);
     }
 
     #[Computed]

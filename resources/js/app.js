@@ -204,7 +204,7 @@ Alpine.data("editor", (content = "") => ({
         this.$refs.editorArea.focus();
     },
     updateParsedContent() {
-        this.markedInstance.parse(this.content).then((html) => {
+        this.markedInstance.parse(this.content ?? "").then((html) => {
             this.parsedContent = DOMPurify.sanitize(html);
         });
     },
@@ -298,7 +298,7 @@ Alpine.data("markdown", (content = "") => ({
                 "This task has no description, enhance it with Markdown ✨";
         }
 
-        markedInstance.parse(this.content).then((html) => {
+        markedInstance.parse(this.content ?? "").then((html) => {
             this.parsedContent = DOMPurify.sanitize(html);
             this.isLoading = false;
         });
@@ -418,6 +418,7 @@ Alpine.data("contextMenu", () => ({
                     window.innerHeight -
                     submenus[i].previousElementSibling.getBoundingClientRect()
                         .top -
+                    80 -
                     submenus[i].offsetHeight;
                 submenus[i].style.top = heightDifference + "px";
             } else {
