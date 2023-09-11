@@ -142,7 +142,7 @@
                                                 <input type="text" x-data x-on:focus="$el.select()" readonly
                                                     x-model="uri"
                                                     class="block grow rounded-l-lg w-full border border-gray-200 bg-white px-3.5 py-2 text-gray-800 placeholder:text-gray-600 sm:text-sm/6">
-                                                <button x-on:click="copyToClipboard(uri)"
+                                                <button x-on:click="copyToClipboard()"
                                                     class="border-l-0 px-4 py-2 text-sm/6 font-semibold text-gray-700 border border-gray-200 rounded-r-lg hover:bg-gray-50 focus:outline-offset-2">
                                                     <span x-show="!copyNotification">Copy</span>
                                                     <span x-show="copyNotification">Copied</span>

@@ -80,7 +80,11 @@
                                     class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
                                     <span>View <span class="text-gray-500 text-xs">(New Tab)</span></span>
                                 </a>
-                                <div x-on:click="contextMenuOpen=false"
+                                <div x-on:click="
+                                    navigator.clipboard.writeText({{ Js::from(route('tasks.show', $task)) }}); 
+                                    contextMenuOpen=false; 
+                                    toast('URL copied successfully.', {type: 'success'})
+                                "
                                     class="relative flex cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-gray-100 outline-none pl-8 data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
                                     <span>Copy URL</span>
                                 </div>
