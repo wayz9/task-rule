@@ -40,6 +40,9 @@ module.exports = {
                             overflowX: "auto",
                             border: "none",
                         },
+                        img: {
+                            borderRadius: theme("borderRadius.xl"),
+                        },
                         p: {
                             overflowWrap: "break-word",
                         },

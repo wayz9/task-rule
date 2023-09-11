@@ -164,11 +164,11 @@
                     });
                 }, 75)
             }
-        }" class="relative h-14" x-on:keydown.ctrl.space.window="$refs.value.focus()"
-            x-on:keydown.escape="value = ''; $refs.value.blur()">
-            <input type="text" placeholder="What's on your mind?" x-model="value" x-ref="value"
+        }" class="relative h-14" x-on:keydown.ctrl.space.window="$refs.newTaskInput.focus()"
+            x-on:keydown.escape="value = ''; $refs.newTaskInput.blur()">
+            <input type="text" placeholder="What's on your mind?" x-model="value" x-ref="newTaskInput"
                 wire:model="taskForm.title" x-on:keydown.enter="addNewTask()" wire:target="add"
-                wire:loading.attr="disabled"
+                wire:loading.attr="disabled" id="new-task-input"
                 class="block w-full h-full bg-white px-8 pl-[62px] text-sm/6 placeholder:text-gray-500 placeholder:font-normal text-gray-900 font-medium focus:outline-none focus:ring-1 focus:ring-gray-300 rounded-lg disabled:bg-gray-50 disabled:cursor-not-allowed">
             <div class="absolute left-8 top-1/2 -translate-y-1/2 text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
