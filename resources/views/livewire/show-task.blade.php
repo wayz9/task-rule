@@ -216,7 +216,7 @@
                         @endteleport
                     </li>
                     <li>
-                        <a href="{{ route('tasks.edit', $task) }}" wire:navigate.hover
+                        <a href="{{ route('tasks.edit', $task) }}"
                             class="group flex items-center gap-x-2 text-sm/6 font-medium text-gray-800 transition-colors focus:outline-none">
                             <span class="inline-flex text-gray-400 group-hover:text-primary-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"

@@ -12,7 +12,7 @@
                 <ul class="md:ml-6 flex whitespace-nowrap">
                     <template x-for="(tab, index) in tabs">
                         <li :key="index">
-                            <a wire:navigate.hover :href="tab.route" x-text="tab.name"
+                            <a :href="tab.route" x-text="tab.name"
                                 class="block py-3.5 px-6 text-sm/6 transition-colors"
                                 :class="tab.active ?
                                     'text-gray-950 font-semibold bg-gray-100' :
@@ -55,10 +55,10 @@
         <ul id="tasks" class="divide-y divide-gray-100 [&>*]:px-8 [&>*]:h-14 overflow-x-auto mb-[4.5rem] grid">
             @foreach ($tasks as $index => $task)
                 <li x-data="contextMenu" x-on:contextmenu="contextMenuToggle(event)"
-                    x-on:contextmenu.away="contextMenuOpen=false" :key="$index"
+                    x-on:contextmenu.away="contextMenuOpen=false" :key="$index" id="task-{{ $task->getKey() }}"
                     class="relative z-10 flex items-center justify-between whitespace-nowrap gap-x-8">
                     <div class="flex items-center gap-x-2">
-                        <a wire:navigate.hover href="{{ route('tasks.show', $task) }}" class="text-sm/6 font-medium">
+                        <a href="{{ route('tasks.show', $task) }}" class="text-sm/6 font-medium">
                             &nbsp;<span class="tabular-nums">{{ $index + 1 }}</span>.
                             {{ $task->title }}
                         </a>

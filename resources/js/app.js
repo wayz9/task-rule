@@ -308,9 +308,10 @@ Alpine.data("markdown", (content = "") => ({
 Alpine.data("tabs", (data) => ({
     tabs: data,
     init() {
-        const tabs = this.$refs.tabs;
-        const leftShadow = this.$refs.leftShadow;
-        const rightShadow = this.$refs.rightShadow;
+        let that = this;
+        const tabs = that.$refs.tabs;
+        const leftShadow = that.$refs.leftShadow;
+        const rightShadow = that.$refs.rightShadow;
 
         function updateShadows() {
             const scrollLeft = tabs.scrollLeft;
